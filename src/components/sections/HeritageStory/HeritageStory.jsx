@@ -1,5 +1,5 @@
 // src/components/sections/HeritageStory/HeritageStory.jsx
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import styles from "./HeritageStory.module.scss";
 
@@ -35,11 +35,10 @@ export default function HeritageStory() {
   const [hasActivated, setHasActivated] = useState(
     Array(chapters.length).fill(false)
   );
-  const refs = useRef([]);
+  const refs = useRef([]);ain
 
-  // Observe which chapter is currently in view
   useEffect(() => {
-    refs.current = refs.current.slice(0, chapters.length);
+    textRefs.current = textRefs.current.slice(0, chapters.length);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -62,10 +61,10 @@ export default function HeritageStory() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.35 }
     );
 
-    refs.current.forEach((ref) => ref && observer.observe(ref));
+    textRefs.current.forEach((ref) => ref && observer.observe(ref));
 
     return () => observer.disconnect();
   }, [hasActivated]);
@@ -81,15 +80,14 @@ export default function HeritageStory() {
             <motion.video
               key={i}
               src={c.video}
-              alt={c.title}
-              className={styles.storyVideo}
               muted
-              autoPlay
               loop
               playsInline
+              autoPlay={active === i}
+              className={styles.storyVideo}
               animate={{
                 opacity: active === i ? 1 : 0,
-                scale: active === i ? 1 : 1.05,
+                scale: active === i ? 1 : 1.04,
               }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
@@ -101,22 +99,24 @@ export default function HeritageStory() {
           {chapters.map((chapter, index) => (
             <motion.div
               key={index}
+              className={`${styles.step} ${
+                active === index ? styles.stepActive : ""
+              }`}
               data-index={index}
-              ref={(el) => (refs.current[index] = el)}
-              className={styles.step}
-              initial={{ opacity: 0.2, y: 30 }}
+              ref={(el) => (textRefs.current[index] = el)}
+              initial={{ opacity: 0.3, y: 30 }}
               animate={{
-                opacity: active === index ? 1 : 0.25,
+                opacity: active === index ? 1 : 0.3,
                 y: active === index ? 0 : 20,
                 scale: active === index ? 1 : 0.97,
               }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.6 }}
               onClick={() => {
                 setActive(index);
                 refs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
+              }}main
             >
-              <div className={styles.dot} />
+              <div className={styles.dot}></div>
               <h3>{chapter.title}</h3>
               <p>{chapter.content}</p>
             </motion.div>

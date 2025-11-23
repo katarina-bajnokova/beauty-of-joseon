@@ -1,7 +1,7 @@
 @use "@/styles/base/variables" as *;
 
 .story {
-  padding: 8rem 2rem;
+  padding: 8rem 2rem 10rem;
   background: #fcfbf9;
 }
 
@@ -45,15 +45,36 @@
 }
 
 .textPanel {
+  height: 560px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 1rem;
   display: flex;
   flex-direction: column;
   gap: 4rem;
   cursor: pointer;
+  gap: 3rem;
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+  pointer-events: auto;
+  overscroll-behavior: contain;
 }
 
 .step {
   position: relative;
   padding-left: 1.8rem;
+  max-width: 500px;
+  opacity: 0.35;
+  transform: translateY(10px);
+  scroll-snap-align: start;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.stepActive {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .dot {
@@ -63,18 +84,34 @@
   border-radius: 50%;
   position: absolute;
   left: 0;
-  top: 0.4rem;
+  top: 0.45rem;
 }
 
 .step h3 {
   font-family: "Amiri", serif;
   color: $color-ink-indigo;
   margin-bottom: 0.5rem;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
 }
 
 .step p {
-  color: rgba($color-ink-indigo, 0.7);
-  line-height: 1.75;
+  color: rgba($color-ink-indigo, 0.72);
+  line-height: 1.8;
   font-size: 1.05rem;
+}
+
+@media (max-width: 980px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .imagePanel {
+    height: 420px;
+    top: 100px;
+  }
+
+  .textPanel {
+    height: 420px;
+  }
 }

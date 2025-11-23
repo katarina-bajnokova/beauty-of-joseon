@@ -2,24 +2,23 @@
 
 .ritual {
   text-align: center;
-  padding: 8rem 2rem;
+  padding: 8rem 2rem 9rem;
   background: #fcfbf9;
+  position: relative;
 }
 
 .title {
   font-size: 2.8rem;
-  color: #212121;
-  font-family: "Amiri", serif;
+  color: $color-ink-indigo;
   margin-bottom: 0.8rem;
+  font-family: "Amiri", serif;
 }
 
 .subtitle {
   font-size: 1.05rem;
-  color: rgba(0, 0, 0, 0.6);
-  margin-bottom: 2.5rem;
+  color: rgba($color-ink-indigo, 0.6);
+  margin-bottom: 2.8rem;
 }
-
-/* BUTTON ROW -------------------------------------- */
 
 .buttonRow {
   display: flex;
@@ -29,31 +28,30 @@
 }
 
 .concernBtn {
-  padding: 0.9rem 2rem;
+  position: relative;
+  padding: 0.9rem 2.1rem;
   font-size: 0.95rem;
-  border-radius: 40px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: white;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
   cursor: pointer;
-  transition: all 0.25s ease;
-
-  &:hover {
-    background: #e6bacb;
-    border-color: #e6bacb;
-    color: white;
-  }
+  overflow: hidden;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .active {
   background: #e6bacb;
   border-color: #e6bacb;
-  color: white;
+  color: #ffffff;
+  box-shadow: 0 14px 30px rgba(214, 176, 200, 0.6);
 }
 
-/* CARD ---------------------------------------------- */
-
 .ritualCard {
-  margin: 3rem auto 0;
+  margin: 3.2rem auto 0;
   max-width: 1100px;
   background: white;
   border-radius: 18px;
@@ -63,6 +61,9 @@
   flex-direction: column; /* stack rows vertically */
   gap: 3rem;
   border-top: 6px solid #dab668;
+  position: relative;
+  overflow: hidden;
+  animation: borderPulse 1s ease-out;
 }
 
 /* Each row */
@@ -165,66 +166,79 @@
   font-size: 0.85rem;
 }
 
-/* PREMIUM PETAL BULLETS ----------------------------- */
-
-.ritualList {
-  list-style: none;
-  padding-left: 0;
-}
-
-.ritualList li {
-  position: relative;
-  padding-left: 1.4rem;
-  margin-bottom: 0.55rem;
-  font-size: 0.97rem;
-  line-height: 1.45;
-}
-
-.ritualList li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.55rem;
-  width: 9px;
-  height: 6px;
-  background-color: #e6bacb; // blush pink
-  border-radius: 60% 40% 60% 40%;
-  transform: rotate(-18deg);
-  opacity: 0.85;
-}
-
-/* LAYOUT FOR MORNING + EVENING ---------------------- */
-
 .stepsRow {
   display: flex;
   gap: 4rem;
 }
 
-/* PRODUCT LIST ------------------------------------- */
+.stepsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stepsColumn h4 {
+  margin-bottom: 0.2rem;
+  color: #dab668;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.stepItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: #fcfbf9;
+  padding: 0.7rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(230, 186, 203, 0.25);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.stepItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.stepItem p {
+  font-size: 0.95rem;
+  color: rgba($color-ink-indigo, 0.88);
+  line-height: 1.4;
+}
+
+.stepDot {
+  width: 10px;
+  height: 10px;
+  margin-top: 0.42rem;
+  border-radius: 50%;
+  background: #e6bacb;
+  box-shadow: 0 0 0 4px rgba(230, 186, 203, 0.18);
+  flex-shrink: 0;
+}
 
 .productList {
   display: flex;
   flex-direction: column;
   gap: 1.3rem;
+  margin-top: 0.4rem;
 }
 
 .productItem {
-  background: #fcfbf9;
-  padding: 1.2rem 1.4rem;
-  border-radius: 14px;
+  background: linear-gradient(135deg, #fcfbf9 0%, #fff9fb 50%, #fcfbf9 100%);
+  padding: 1.25rem 1.5rem;
+  border-radius: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: 0.25s ease;
-
-  &:hover {
-    background: #f3ece7;
-    transform: translateY(-2px);
-  }
+  border: 1px solid rgba(230, 186, 203, 0.2);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.05);
 }
 
 .productName {
   font-weight: 500;
+  margin-bottom: 0.25rem;
 }
 
 .productStep {
@@ -236,51 +250,31 @@
   color: #e6bacb;
   font-weight: 500;
   cursor: pointer;
-  transition: 0.2s;
+  font-size: 0.92rem;
+}
 
-  &:hover {
-    color: #d39ab7;
+.view:hover {
+  color: #d39ab7;
+}
+
+@keyframes borderPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(218, 182, 104, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 24px rgba(218, 182, 104, 0);
   }
 }
 
-/* ---------- PREMIUM BULLET STYLE ---------- */
+@media (max-width: 900px) {
+  .ritualCard {
+    grid-template-columns: 1fr;
+    padding: 2.4rem 1.8rem;
+    gap: 2.4rem;
+  }
 
-.stepsRow ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.stepsRow li {
-  position: relative;
-  padding-left: 1.6rem;
-  margin-bottom: 0.6rem;
-  font-size: 0.95rem;
-  color: #212121;
-}
-
-/* Beautified serum-drop bullet */
-.stepsRow li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.45rem;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #e6bacb; /* Beauty of Joseon pink */
-  box-shadow: 0 0 8px rgba(230, 186, 203, 0.45);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-/* Micro interaction */
-.stepsRow li:hover::before {
-  transform: scale(1.25);
-  box-shadow: 0 0 14px rgba(230, 186, 203, 0.8);
-}
-
-.stepsRow li:hover {
-  color: #d39ab7;
+  .stepsRow {
+    gap: 2rem;
+    justify-content: center;
+  }
 }

@@ -15,33 +15,28 @@ const concerns = ["Hydration", "Radiance", "Calm", "Balancing"];
 
 function RitualSection() {
   const [selected, setSelected] = useState(null);
-
-  // ⭐ Scroll parallax setup
   const sectionRef = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
 
-  // Parallax movement: subtle & elegant
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, 30]);
   const opacityParallax = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
 
   return (
     <section ref={sectionRef} className={styles.ritual}>
-      {/* Title */}
       <Reveal>
         <h2 className={styles.title}>Find your Beauty of Joseon ritual.</h2>
       </Reveal>
 
-      {/* Subtitle */}
       <Reveal delay={0.1}>
         <p className={styles.subtitle}>
           Select your skin concerns to discover your personalized routine.
         </p>
       </Reveal>
 
-      {/* Buttons */}
       <Reveal delay={0.2}>
         <div className={styles.buttonRow}>
           {concerns.map((label) => (
@@ -58,7 +53,6 @@ function RitualSection() {
         </div>
       </Reveal>
 
-      {/* Animated Ritual Card */}
       <AnimatePresence mode="wait">
         {selected && (
           <motion.div
@@ -91,7 +85,6 @@ function RitualSection() {
                   >
                     <div className={styles.productImgWrapper}>
                       <img src={item.img} alt={item.name} className={styles.productImg} />
-
                       {/* Add to Cart button now controlled by parent hover */}
                       <motion.button
                         className={styles.addToCartBtn}
