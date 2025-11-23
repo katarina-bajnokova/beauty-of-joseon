@@ -19,24 +19,29 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 4rem;
+  align-items: center; /* ⬅ Centers text panel vertically */
 }
 
-.imagePanel {
+.videoPanel {
   position: relative;
-  height: 600px;
+  width: 100%;           /* fill the grid column */
+  max-height: 850px;     /* limit height */
+  aspect-ratio: 9 / 16;  /* maintain video ratio */
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+
+  /* optional: center panel if it doesn't fill column */
+  justify-self: center;
 }
 
-.storyImage {
+.storyVideo {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
+  justify-self: center;
 }
 
 .textPanel {

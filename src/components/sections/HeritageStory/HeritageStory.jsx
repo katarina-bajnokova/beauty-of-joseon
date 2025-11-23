@@ -8,30 +8,33 @@ const chapters = [
     title: "Origins",
     content:
       "In the courts of the Joseon Dynasty, beauty rituals were sacred ceremonies. Women of the palace blended herbal remedies passed down through generations, creating formulas that honored both tradition and efficacy.",
-    img: "/heritage/origins.jpg",
+    video: "/videos/heritage/origins.mp4",
   },
   {
     title: "Philosophy",
     content:
       "Our approach is rooted in balance—between heritage and innovation, between nature and science. We believe beauty should never be rushed, but cultivated with patience and care.",
-    img: "/heritage/philosophy.jpg",
+    video: "/videos/heritage/philosophy.mp4",
   },
   {
     title: "Craft",
     content:
       "Each formula is crafted with meticulous attention, using ingredients at their peak potency. We honor traditional methods while ensuring modern standards of purity and effectiveness.",
-    img: "/heritage/craft.jpg",
+    video: "/videos/heritage/craft.mp4",
   },
   {
     title: "Today",
     content:
       "Beauty of Joseon bridges centuries, bringing time-tested wisdom to modern skin. Our rituals invite you to slow down, connect with tradition, and discover the gentle power of heritage skincare.",
-    img: "/heritage/today.jpg",
+    video: "/videos/heritage/today.mp4",
   },
 ];
 
 export default function HeritageStory() {
   const [active, setActive] = useState(0);
+  const [hasActivated, setHasActivated] = useState(
+    Array(chapters.length).fill(false)
+  );
   const refs = useRef([]);
 
   // Observe which chapter is currently in view
@@ -43,31 +46,47 @@ export default function HeritageStory() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = Number(entry.target.dataset.index);
-            setActive(index); // safe — triggers only when section crosses threshold
+
+            // Skip if this chapter already auto-activated once
+            if (hasActivated[index]) return;
+
+            // Mark it as used
+            setHasActivated((prev) => {
+              const next = [...prev];
+              next[index] = true;
+              return next;
+            });
+
+            // Set active only the FIRST time
+            setActive(index);
           }
         });
       },
-      { threshold: 0.8 } // 40% visibility activates chapter
+      { threshold: 0.3 }
     );
 
     refs.current.forEach((ref) => ref && observer.observe(ref));
 
     return () => observer.disconnect();
-  }, []);
+  }, [hasActivated]);
 
   return (
     <section className={styles.story}>
       <h2 className={styles.title}>Heritage Story</h2>
 
       <div className={styles.wrapper}>
-        {/* LEFT IMAGE PANEL */}
-        <div className={styles.imagePanel}>
+        {/* LEFT VIDEO PANEL */}
+        <div className={styles.videoPanel}>
           {chapters.map((c, i) => (
-            <motion.img
+            <motion.video
               key={i}
-              src={c.img}
+              src={c.video}
               alt={c.title}
-              className={styles.storyImage}
+              className={styles.storyVideo}
+              muted
+              autoPlay
+              loop
+              playsInline
               animate={{
                 opacity: active === i ? 1 : 0,
                 scale: active === i ? 1 : 1.05,
@@ -92,6 +111,10 @@ export default function HeritageStory() {
                 scale: active === index ? 1 : 0.97,
               }}
               transition={{ duration: 0.5 }}
+              onClick={() => {
+                setActive(index);
+                refs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
             >
               <div className={styles.dot} />
               <h3>{chapter.title}</h3>
