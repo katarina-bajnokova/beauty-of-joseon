@@ -45,31 +45,15 @@
 }
 
 .textPanel {
-  height: 560px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 1rem;
   display: flex;
   flex-direction: column;
   gap: 4rem;
   cursor: pointer;
-  gap: 3rem;
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
-  pointer-events: auto;
-  overscroll-behavior: contain;
 }
 
 .step {
   position: relative;
   padding-left: 1.8rem;
-  max-width: 500px;
-  opacity: 0.35;
-  transform: translateY(10px);
-  scroll-snap-align: start;
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
 }
 
 .stepActive {

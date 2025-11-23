@@ -8,25 +8,25 @@ const chapters = [
     title: "Origins",
     content:
       "In the courts of the Joseon Dynasty, beauty rituals were sacred ceremonies. Women of the palace blended herbal remedies passed down through generations, creating formulas that honored both tradition and efficacy.",
-    video: "/videos/heritage/origins.mp4",
+    video: "videos/heritage/origins.mp4",
   },
   {
     title: "Philosophy",
     content:
       "Our approach is rooted in balance—between heritage and innovation, between nature and science. We believe beauty should never be rushed, but cultivated with patience and care.",
-    video: "/videos/heritage/philosophy.mp4",
+    video: "videos/heritage/philosophy.mp4",
   },
   {
     title: "Craft",
     content:
       "Each formula is crafted with meticulous attention, using ingredients at their peak potency. We honor traditional methods while ensuring modern standards of purity and effectiveness.",
-    video: "/videos/heritage/craft.mp4",
+    video: "videos/heritage/craft.mp4",
   },
   {
     title: "Today",
     content:
       "Beauty of Joseon bridges centuries, bringing time-tested wisdom to modern skin. Our rituals invite you to slow down, connect with tradition, and discover the gentle power of heritage skincare.",
-    video: "/videos/heritage/today.mp4",
+    video: "videos/heritage/today.mp4",
   },
 ];
 
@@ -35,7 +35,7 @@ export default function HeritageStory() {
   const [hasActivated, setHasActivated] = useState(
     Array(chapters.length).fill(false)
   );
-  const refs = useRef([]);ain
+  const textRefs = useRef([]);
 
   useEffect(() => {
     textRefs.current = textRefs.current.slice(0, chapters.length);
@@ -83,7 +83,7 @@ export default function HeritageStory() {
               muted
               loop
               playsInline
-              autoPlay={active === i}
+              autoPlay
               className={styles.storyVideo}
               animate={{
                 opacity: active === i ? 1 : 0,
@@ -113,7 +113,7 @@ export default function HeritageStory() {
               transition={{ duration: 0.6 }}
               onClick={() => {
                 setActive(index);
-                refs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+                textRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}main
             >
               <div className={styles.dot}></div>
