@@ -1,5 +1,5 @@
 // src/components/sections/HeritageStory/HeritageStory.jsx
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import styles from "./HeritageStory.module.scss";
 
@@ -8,25 +8,25 @@ const chapters = [
     title: "Origins",
     content:
       "In the courts of the Joseon Dynasty, beauty rituals were sacred ceremonies. Women of the palace blended herbal remedies passed down through generations, creating formulas that honored both tradition and efficacy.",
-    img: "/heritage/origins.jpg",
+    video: "/videos/heritage/origins.mp4",
   },
   {
     title: "Philosophy",
     content:
       "Our approach is rooted in balance—between heritage and innovation, between nature and science. We believe beauty should never be rushed, but cultivated with patience and care.",
-    img: "/heritage/philosophy.jpg",
+    video: "/videos/heritage/philosophy.mp4",
   },
   {
     title: "Craft",
     content:
       "Each formula is crafted with meticulous attention, using ingredients at their peak potency. We honor traditional methods while ensuring modern standards of purity and effectiveness.",
-    img: "/heritage/craft.jpg",
+    video: "/videos/heritage/craft.mp4",
   },
   {
     title: "Today",
     content:
       "Beauty of Joseon bridges centuries, bringing time-tested wisdom to modern skin. Our rituals invite you to slow down, connect with tradition, and discover the gentle power of heritage skincare.",
-    img: "/heritage/today.jpg",
+    video: "/videos/heritage/today.mp4",
   },
 ];
 
@@ -34,7 +34,6 @@ export default function HeritageStory() {
   const [active, setActive] = useState(0);
   const refs = useRef([]);
 
-  // Observe which chapter is currently in view
   useEffect(() => {
     refs.current = refs.current.slice(0, chapters.length);
 
@@ -43,11 +42,11 @@ export default function HeritageStory() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = Number(entry.target.dataset.index);
-            setActive(index); // safe — triggers only when section crosses threshold
+            setActive(index);
           }
         });
       },
-      { threshold: 0.8 } // 40% visibility activates chapter
+      { threshold: 0.65 }
     );
 
     refs.current.forEach((ref) => ref && observer.observe(ref));
@@ -60,14 +59,17 @@ export default function HeritageStory() {
       <h2 className={styles.title}>Heritage Story</h2>
 
       <div className={styles.wrapper}>
-        {/* LEFT IMAGE PANEL */}
+        {/* Left: Video Panel */}
         <div className={styles.imagePanel}>
           {chapters.map((c, i) => (
-            <motion.img
+            <motion.video
               key={i}
-              src={c.img}
-              alt={c.title}
-              className={styles.storyImage}
+              src={c.video}
+              muted
+              loop
+              playsInline
+              autoPlay={active === i}
+              className={styles.storyVideo}
               animate={{
                 opacity: active === i ? 1 : 0,
                 scale: active === i ? 1 : 1.05,
@@ -77,7 +79,7 @@ export default function HeritageStory() {
           ))}
         </div>
 
-        {/* RIGHT TEXT PANEL */}
+        {/* Right: Text Steps */}
         <div className={styles.textPanel}>
           {chapters.map((chapter, index) => (
             <motion.div
@@ -85,13 +87,13 @@ export default function HeritageStory() {
               data-index={index}
               ref={(el) => (refs.current[index] = el)}
               className={styles.step}
-              initial={{ opacity: 0.2, y: 30 }}
+              initial={{ opacity: 0.3, y: 30 }}
               animate={{
-                opacity: active === index ? 1 : 0.25,
+                opacity: active === index ? 1 : 0.3,
                 y: active === index ? 0 : 20,
                 scale: active === index ? 1 : 0.97,
               }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.6 }}
             >
               <div className={styles.dot} />
               <h3>{chapter.title}</h3>

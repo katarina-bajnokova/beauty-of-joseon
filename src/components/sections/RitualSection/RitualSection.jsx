@@ -13,33 +13,28 @@ const concerns = ["Hydration", "Radiance", "Calm", "Balancing"];
 
 function RitualSection() {
   const [selected, setSelected] = useState(null);
-
-  // ⭐ Scroll parallax setup
   const sectionRef = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
 
-  // Parallax movement: subtle & elegant
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, 30]);
   const opacityParallax = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
 
   return (
     <section ref={sectionRef} className={styles.ritual}>
-      {/* Title */}
       <Reveal>
         <h2 className={styles.title}>Find your Beauty of Joseon ritual.</h2>
       </Reveal>
 
-      {/* Subtitle */}
       <Reveal delay={0.1}>
         <p className={styles.subtitle}>
           Select your skin concerns to discover your personalized routine.
         </p>
       </Reveal>
 
-      {/* Buttons */}
       <Reveal delay={0.2}>
         <div className={styles.buttonRow}>
           {concerns.map((label) => (
@@ -56,21 +51,17 @@ function RitualSection() {
         </div>
       </Reveal>
 
-      {/* Animated Ritual Card */}
       <AnimatePresence mode="wait">
         {selected && (
           <motion.div
             key={selected}
             className={styles.ritualCard}
-            style={{ y: yParallax, opacity: opacityParallax }} // ⭐ APPLY PARALLAX HERE
+            style={{ y: yParallax, opacity: opacityParallax }}
             initial={{ opacity: 0, y: 50 }}
             animate={{
               opacity: 1,
               y: 0,
-              transition: {
-                duration: 0.55,
-                ease: [0.22, 1, 0.36, 1],
-              },
+              transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
             }}
             exit={{
               opacity: 0,
@@ -84,24 +75,28 @@ function RitualSection() {
               <p className={styles.cardDesc}>{rituals[selected].description}</p>
 
               <div className={styles.stepsRow}>
-                {/* Morning */}
-                <div>
+                {/* MORNING */}
+                <div className={styles.stepsColumn}>
                   <h4>Morning</h4>
-                  <ul>
-                    {rituals[selected].morning.map((step, i) => (
-                      <li key={i}>{step}</li>
-                    ))}
-                  </ul>
+
+                  {rituals[selected].morning.map((step, i) => (
+                    <div key={i} className={styles.stepItem}>
+                      <span className={styles.stepDot}></span>
+                      <p>{step}</p>
+                    </div>
+                  ))}
                 </div>
 
-                {/* Evening */}
-                <div>
+                {/* EVENING */}
+                <div className={styles.stepsColumn}>
                   <h4>Evening</h4>
-                  <ul>
-                    {rituals[selected].evening.map((step, i) => (
-                      <li key={i}>{step}</li>
-                    ))}
-                  </ul>
+
+                  {rituals[selected].evening.map((step, i) => (
+                    <div key={i} className={styles.stepItem}>
+                      <span className={styles.stepDot}></span>
+                      <p>{step}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
