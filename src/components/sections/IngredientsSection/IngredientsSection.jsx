@@ -5,32 +5,32 @@ import styles from "./IngredientsSection.module.scss";
 const ingredients = [
   {
     name: "Ginseng",
-    img: "/ingredients/ginseng.webp",
+    img: "ingredients/ginseng.webp",
     note: "Boosts circulation and revitalizes tired, dull skin.",
   },
   {
     name: "Rice",
-    img: "/ingredients/rice.webp",
+    img: "ingredients/rice.webp",
     note: "Brightens the complexion and improves skin clarity.",
   },
   {
     name: "Honey",
-    img: "/ingredients/honey.webp",
+    img: "ingredients/honey.webp",
     note: "Deeply hydrates and provides natural antibacterial benefits.",
   },
   {
     name: "Green Plum",
-    img: "/ingredients/plum.webp",
+    img: "ingredients/plum.webp",
     note: "Gently exfoliates for smoother, clearer skin.",
   },
   {
     name: "Cherry Blossom",
-    img: "/ingredients/cherry.webp",
+    img: "ingredients/cherry.webp",
     note: "Soothes irritation and enhances radiance.",
   },
   {
     name: "Centella",
-    img: "/ingredients/centella.webp",
+    img: "ingredients/centella.webp",
     note: "Reduces redness and promotes healing.",
   },
 ];
@@ -81,15 +81,14 @@ function IngredientsSection() {
 
             <p className={styles.label}>{item.name}</p>
 
-            {/* ✨ SIDE NOTE */}
             <AnimatePresence>
               {hovered === i && (
                 <motion.div
                   className={styles.sideNote}
-                  initial={{ opacity: 0, x: -12, filter: "blur(4px)" }}
+                  initial={{ opacity: 0, x: -6, filter: "blur(4px)" }}
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: -12, filter: "blur(4px)" }}
-                  transition={{ duration: 0.25 }}
+                  exit={{ opacity: 0, x: -6, filter: "blur(4px)" }}
+                  transition={{ duration: 0.22 }}
                 >
                   {item.note}
                 </motion.div>

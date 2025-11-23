@@ -27,6 +27,7 @@ function HeroSection() {
       }
       raf = requestAnimationFrame(smooth);
     };
+
     smooth();
     return () => cancelAnimationFrame(raf);
   }, []);
@@ -34,12 +35,14 @@ function HeroSection() {
   const handleMouseMove = (e) => {
     const video = videoRef.current;
     const wrapper = wrapperRef.current;
+
     if (!video || !wrapper) return;
 
     const rect = wrapper.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    const p = Math.min(Math.max(x / rect.width, 0), 1);
-    targetTime.current = p * video.duration;
+    const progress = Math.min(Math.max(x / rect.width, 0), 1);
+
+    targetTime.current = progress * video.duration;
     setIsScrubbing(true);
   };
 
@@ -48,7 +51,8 @@ function HeroSection() {
     offset: ["start end", "end start"],
   });
 
-  const zoom = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  // Stronger zoom animation
+  const zoom = useTransform(scrollYProgress, [0, 1], [1, 1.22]);
 
   return (
     <section ref={heroRef} className={styles.hero}>
@@ -112,7 +116,7 @@ function HeroSection() {
               <video
                 className={styles.heroVideo}
                 ref={videoRef}
-                src="/videos/hero.mp4"
+                src="videos/hero.mp4" // ← CORRECT for GitHub Pages
                 muted
                 playsInline
               />
