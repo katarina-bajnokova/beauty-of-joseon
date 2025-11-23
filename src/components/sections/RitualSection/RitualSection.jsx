@@ -8,6 +8,8 @@ import {
 import styles from "./RitualSection.module.scss";
 import { rituals } from "@/data/rituals";
 import Reveal from "@/components/utils/Reveal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
 const concerns = ["Hydration", "Radiance", "Calm", "Balancing"];
 
@@ -69,59 +71,77 @@ function RitualSection() {
               transition: { duration: 0.35, ease: "easeOut" },
             }}
           >
-            {/* LEFT COLUMN */}
-            <div className={styles.column}>
-              <h3 className={styles.cardTitle}>{rituals[selected].title}</h3>
-              <p className={styles.cardDesc}>{rituals[selected].description}</p>
-
-              <div className={styles.stepsRow}>
-                {/* MORNING */}
-                <div className={styles.stepsColumn}>
-                  <h4>Morning</h4>
-
-                  {rituals[selected].morning.map((step, i) => (
-                    <div key={i} className={styles.stepItem}>
-                      <span className={styles.stepDot}></span>
-                      <p>{step}</p>
+            {/* TOP ROW: Morning */}
+            <div className={styles.ritualRow}>
+              <h4>Morning</h4>
+              <div className={styles.productRow}>
+                {rituals[selected].morningProducts.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    className={styles.productCard}
+                    initial="rest"
+                    whileHover="hover"
+                    animate="rest"
+                  >
+                    <div className={styles.productImgWrapper}>
+                      <img src={item.img} alt={item.name} className={styles.productImg} />
+                      {/* Add to Cart button now controlled by parent hover */}
+                      <motion.button
+                        className={styles.addToCartBtn}
+                        onClick={() => addToCart(item)}
+                        variants={{
+                          rest: { opacity: 0, y: -10 },
+                          hover: { opacity: 1, y: 0 },
+                        }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
+                      >
+                        <FontAwesomeIcon icon={faCartPlus} size="sm" />
+                      </motion.button>
                     </div>
-                  ))}
-                </div>
 
-                {/* EVENING */}
-                <div className={styles.stepsColumn}>
-                  <h4>Evening</h4>
-
-                  {rituals[selected].evening.map((step, i) => (
-                    <div key={i} className={styles.stepItem}>
-                      <span className={styles.stepDot}></span>
-                      <p>{step}</p>
+                    <div className={styles.productContent}>
+                      <p className={styles.productName}>{item.name}</p>
+                      <p className={styles.productPrice}>{item.price}</p>
                     </div>
-                  ))}
-                </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
 
-            {/* RIGHT COLUMN */}
-            <div className={styles.column}>
-              <h3 className={styles.cardTitle}>Recommended Products</h3>
+            {/* BOTTOM ROW: Evening */}
+            <div className={styles.ritualRow}>
+              <h4>Evening</h4>
+              <div className={styles.productRow}>
+                {rituals[selected].eveningProducts.map((item, i) => (
+                <motion.div
+                  key={i}
+                  className={styles.productCard}
+                  initial="rest"
+                  whileHover="hover"
+                  animate="rest"
+                >
+                  <div className={styles.productImgWrapper}>
+                    <img src={item.img} alt={item.name} className={styles.productImg} />
 
-              <div className={styles.productList}>
-                {rituals[selected].products.map((item, i) => (
-                  <motion.div
-                    key={i}
-                    className={styles.productItem}
-                    whileHover={{
-                      y: -4,
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
-                    }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <div>
-                      <p className={styles.productName}>{item.name}</p>
-                      <p className={styles.productStep}>{item.step}</p>
-                    </div>
-                    <span className={styles.view}>View →</span>
-                  </motion.div>
+                    {/* Add to Cart button now controlled by parent hover */}
+                    <motion.button
+                      className={styles.addToCartBtn}
+                      onClick={() => addToCart(item)}
+                      variants={{
+                        rest: { opacity: 0, y: -10 },
+                        hover: { opacity: 1, y: 0 },
+                      }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                    >
+                      <FontAwesomeIcon icon={faCartPlus} size="sm" />
+                    </motion.button>
+                  </div>
+
+                  <div className={styles.productContent}>
+                    <p className={styles.productName}>{item.name}</p>
+                    <p className={styles.productPrice}>{item.price}</p>
+                  </div>
+                </motion.div>
                 ))}
               </div>
             </div>

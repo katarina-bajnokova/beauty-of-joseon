@@ -11,6 +11,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.0",
     "@studio-freight/lenis": "^1.0.42",

@@ -32,6 +32,9 @@ const chapters = [
 
 export default function HeritageStory() {
   const [active, setActive] = useState(0);
+  const [hasActivated, setHasActivated] = useState(
+    Array(chapters.length).fill(false)
+  );
   const textRefs = useRef([]);
 
   useEffect(() => {
@@ -42,6 +45,18 @@ export default function HeritageStory() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = Number(entry.target.dataset.index);
+
+            // Skip if this chapter already auto-activated once
+            if (hasActivated[index]) return;
+
+            // Mark it as used
+            setHasActivated((prev) => {
+              const next = [...prev];
+              next[index] = true;
+              return next;
+            });
+
+            // Set active only the FIRST time
             setActive(index);
           }
         });
@@ -52,7 +67,7 @@ export default function HeritageStory() {
     textRefs.current.forEach((ref) => ref && observer.observe(ref));
 
     return () => observer.disconnect();
-  }, []);
+  }, [hasActivated]);
 
   return (
     <section className={styles.story}>
@@ -60,7 +75,7 @@ export default function HeritageStory() {
 
       <div className={styles.wrapper}>
         {/* LEFT VIDEO PANEL */}
-        <div className={styles.imagePanel}>
+        <div className={styles.videoPanel}>
           {chapters.map((c, i) => (
             <motion.video
               key={i}
@@ -68,7 +83,7 @@ export default function HeritageStory() {
               muted
               loop
               playsInline
-              autoPlay={active === i}
+              autoPlay
               className={styles.storyVideo}
               animate={{
                 opacity: active === i ? 1 : 0,
@@ -96,6 +111,10 @@ export default function HeritageStory() {
                 scale: active === index ? 1 : 0.97,
               }}
               transition={{ duration: 0.6 }}
+              onClick={() => {
+                setActive(index);
+                textRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}main
             >
               <div className={styles.dot}></div>
               <h3>{chapter.title}</h3>

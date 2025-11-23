@@ -19,16 +19,20 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 4rem;
+  align-items: center; /* ⬅ Centers text panel vertically */
 }
 
-.imagePanel {
-  position: sticky;
-  top: 140px;
-  height: 560px;
-  border-radius: 26px;
+.videoPanel {
+  position: relative;
+  width: 100%;           /* fill the grid column */
+  max-height: 850px;     /* limit height */
+  aspect-ratio: 9 / 16;  /* maintain video ratio */
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.18);
-  pointer-events: none;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+
+  /* optional: center panel if it doesn't fill column */
+  justify-self: center;
 }
 
 .storyVideo {
@@ -37,35 +41,19 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.6s ease-out;
-  pointer-events: none;
+  justify-self: center;
 }
 
 .textPanel {
-  height: 560px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
-  pointer-events: auto;
-  overscroll-behavior: contain;
+  gap: 4rem;
+  cursor: pointer;
 }
 
 .step {
   position: relative;
   padding-left: 1.8rem;
-  max-width: 500px;
-  opacity: 0.35;
-  transform: translateY(10px);
-  scroll-snap-align: start;
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
 }
 
 .stepActive {
