@@ -1,0 +1,25 @@
+body {
+  background: $color-porcelain;
+  color: $color-ink-indigo;
+  font-family: system-ui, sans-serif;
+}
+
+.petal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.falling-petal {
+  position: absolute;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform, opacity;
+  z-index: 0;
+}
