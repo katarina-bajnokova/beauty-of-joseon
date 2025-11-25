@@ -69,3 +69,16 @@
     opacity: 1;
   }
 }
+.overlayContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.overlayCanvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%; // match the image
+  height: 100%;
+  pointer-events: none;
+}
