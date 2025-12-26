@@ -14,6 +14,7 @@ export default function useSkinAnalysis() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [landmarker, setLandmarker] = useState(null);
   const [analysis, setAnalysis] = useState(null);
+  const [averageScore, setAverageScore] = useState(null);
   const [recommended, setRecommended] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false); // ⬅ NEW
@@ -35,6 +36,7 @@ export default function useSkinAnalysis() {
 
     // Reset
     setAnalysis(null);
+    setAverageScore(null);
     setRecommended([]);
     setIsLoading(true); // ⬅ START LOADING IMMEDIATELY
 
@@ -282,7 +284,30 @@ export default function useSkinAnalysis() {
         blemishScore,
       };
 
-      setAnalysis(result);
+      const metrics = [
+        { label: "Redness", value: result.redness, type: "absolute" },
+        { label: "Brightness", value: result.brightness, type: "absolute" },
+        { label: "Contrast", value: result.contrast, type: "absolute" },
+        { label: "Dark Circles", value: result.darkCircles, type: "score" },
+        {
+          label: "Tone Unevenness",
+          value: result.toneUnevenness,
+          type: "score",
+        },
+        {
+          label: "Pore Visibility",
+          value: result.poreVisibility,
+          type: "score",
+        },
+        { label: "Blemish Score", value: result.blemishScore, type: "score" },
+      ];
+
+      const averageScore = Math.round(
+        metrics.reduce((sum, m) => sum + m.value, 0) / metrics.length
+      );
+
+      setAnalysis(metrics);
+      setAverageScore(averageScore);
       setRecommended(getRecommendations(result));
     };
 
@@ -295,6 +320,7 @@ export default function useSkinAnalysis() {
     overlayRef,
     previewUrl,
     analysis,
+    averageScore,
     recommended,
     scanProgress,
     isScanning,
