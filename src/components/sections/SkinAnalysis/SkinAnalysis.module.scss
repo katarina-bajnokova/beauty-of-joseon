@@ -1,32 +1,131 @@
-.section {
+@import "@/styles/base/semantic-colors";
+// Skin analysis intro block anchored at bottom
+.skinIntroBlock {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  padding: 4rem 0;
-  background: #f8f6f3;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  padding-bottom: 2rem;
+}
+.skinIntroBlock {
+  position: absolute;
+  left: 0;
+  bottom: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.skinTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin-bottom: 1.5rem;
+}
+
+.skinBtn {
+  font-size: 1.1rem;
+  padding: 0.8rem 2.2rem;
+  background: $btn-secondary-bg;
+  color: $btn-secondary-text;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 1.2rem;
+}
+
+.skinNote {
+  font-size: 1rem;
+  color: $text-secondary;
+  margin-bottom: 0.5rem;
+}
+// Absolute container for text and button
+.absoluteContainer {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+/* ────────────── FULL BACKGROUND VIDEO ────────────── */
+.videoBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bgVideo {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
+}
+@import "@/styles/base/variables";
+@import "@/styles/base/semantic-colors";
+@import "@/styles/base/semantic-typography";
+
+.section {
+  position: relative;
+  min-height: 100vh;
+  padding: 0;
+  background: $bg-page;
 }
 
 .wrapper {
   width: 100%;
   max-width: 1100px;
   text-align: center;
+  margin-top: 0;
 }
 
 .title {
-  font-size: 2.4rem;
-  font-weight: 600;
+  @include apply-typography($text-page-title);
+  color: $text-primary;
+  margin-top: 6rem;
   margin-bottom: 2rem;
-  color: #2d2a26;
 }
 
 /* ───────────────── UPLOAD BUTTON ───────────────── */
 .uploadButton {
+  @include apply-typography($text-button-primary);
   display: inline-block;
-  background: white;
+  background: $btn-secondary-bg;
   padding: 12px 22px;
-  border-radius: 10px;
-  border: 1px solid #e1ddd7;
+  border-radius: 0;
+  border: 1px solid $border-default;
   cursor: pointer;
-  color: #2d2a26;
+  color: $btn-secondary-text;
+  margin-top: 3rem;
   margin-bottom: 2rem;
   transition: all 0.2s ease;
 
@@ -35,7 +134,7 @@
   }
 
   &:hover {
-    background: #f1ece7;
+    background: $btn-outline-bg-hover;
   }
 }
 
@@ -72,9 +171,9 @@
 .previewBox {
   width: 320px;
   height: 480px;
-  border-radius: 20px;
-  background: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 0;
+  background: $surface-card;
+  box-shadow: $shadow-lg;
   overflow: hidden;
   position: relative;
 
@@ -115,10 +214,10 @@
 
 /* ───────────────── RESULTS CARD ───────────────── */
 .results {
-  background: white;
+  background: $surface-card;
   padding: 2rem;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: $shadow-md;
   text-align: left;
   margin-bottom: 2rem;
 
@@ -127,12 +226,188 @@
   gap: 24px;
 }
 
+/* ───────────────── CONFIDENCE BADGE ───────────────── */
+.confidenceBadge {
+  background: $gradient-subtle;
+  border: 2px solid $border-default;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &.excellent {
+    border-color: $success-500;
+    background: $feedback-success-bg;
+  }
+
+  &.good {
+    border-color: $success-400;
+    background: $feedback-success-bg;
+  }
+
+  &.fair {
+    border-color: $warning-500;
+    background: $feedback-warning-bg;
+  }
+
+  &.poor {
+    border-color: $error-500;
+    background: $feedback-error-bg;
+  }
+}
+
+.confidenceLabel {
+  @include apply-typography($text-overline);
+  display: block;
+  color: $text-tertiary;
+  margin-bottom: 0.25rem;
+}
+
+.confidenceValue {
+  @include h1;
+  display: block;
+  color: $text-primary;
+  margin-bottom: 0.25rem;
+}
+
+.confidenceQuality {
+  @include apply-typography($text-badge);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 0;
+  background: $bg-hover;
+  color: $text-primary;
+}
+
+.confidenceTips {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid $border-default;
+  text-align: left;
+
+  p {
+    @include apply-typography($text-caption);
+    color: $text-secondary;
+    margin: 0.4rem 0;
+  }
+}
+
+/* ───────────────── REGIONAL ANALYSIS ───────────────── */
+.regionalBox {
+  background: $gradient-subtle;
+  border: 1px solid $border-default;
+  border-radius: 0;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.regionalTitle {
+  @include apply-typography($text-card-title);
+  color: $text-primary;
+  margin-bottom: 0.5rem;
+}
+
+.skinType {
+  @include apply-typography($text-tag);
+  color: $text-secondary;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background: $bg-hover;
+  border-radius: 0;
+  display: inline-block;
+}
+
+.regionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.regionCard {
+  background: $surface-card;
+  border: 1px solid $border-subtle;
+  border-radius: 0;
+  padding: 1rem;
+}
+
+.regionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+
+  h4 {
+    @include apply-typography($text-card-subtitle);
+    color: $text-primary;
+    margin: 0;
+  }
+}
+
+.regionIcon {
+  font-size: 1.2rem;
+}
+
+.regionMetric {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+
+  span:first-child {
+    @include apply-typography($text-caption);
+    color: $text-secondary;
+    min-width: 60px;
+  }
+}
+
+.miniBar {
+  flex: 1;
+  height: 6px;
+  background: $bg-hover;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.miniBarFill {
+  height: 100%;
+  background: $gradient-accent;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.metricValue {
+  @include apply-typography($text-caption);
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  min-width: 35px;
+  text-align: right;
+}
+
+.concerns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.concernTag {
+  @include apply-typography($text-caption);
+  padding: 3px 8px;
+  background: $warning-50;
+  color: $warning-700;
+  border-radius: 0;
+  font-weight: $font-weight-medium;
+}
+
 /* ───────────────── RECOMMENDATIONS ───────────────── */
 .recommendations {
-  background: white;
+  background: $surface-card;
   padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  box-shadow: $shadow-md;
   text-align: left;
 }
 
@@ -148,15 +423,15 @@
 .productCard {
   text-align: center;
   padding: 1rem;
-  background: #ffffff;
-  border: 1px solid #e4e0db;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  background: $surface-card;
+  border: 1px solid $border-subtle;
+  border-radius: 0;
+  box-shadow: $shadow-sm;
   transition: 0.15s ease;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: $shadow-md;
   }
 }
 
@@ -171,7 +446,7 @@
   width: 100%;
   max-width: 120px;
   height: auto;
-  border-radius: 12px;
+  border-radius: 0;
   display: block;
   margin: 0 auto;
 }
@@ -211,7 +486,7 @@
 .averageBox {
   background: white;
   padding: 20px;
-  border-radius: 16px;
+  border-radius: 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
@@ -228,7 +503,7 @@
 .progressBar {
   height: 8px;
   background: #eee;
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -250,7 +525,7 @@
 .metricCard {
   background: white;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   text-align: center;
 }
@@ -327,7 +602,7 @@
 .miniBar {
   height: 4px;
   background: #eee;
-  border-radius: 2px;
+  border-radius: 0;
   overflow: hidden;
 }
 

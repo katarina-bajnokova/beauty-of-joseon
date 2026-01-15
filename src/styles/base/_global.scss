@@ -1,7 +1,10 @@
 body {
-  background: $color-porcelain;
-  color: $color-ink-indigo;
-  font-family: system-ui, sans-serif;
+  background: $bg-page;
+  color: $text-primary;
+  font-family: $font-family-body;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
 }
 
 .petal-container {

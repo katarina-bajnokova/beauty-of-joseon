@@ -113,8 +113,11 @@ export default function HeritageStory() {
               transition={{ duration: 0.6 }}
               onClick={() => {
                 setActive(index);
-                textRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}main
+                textRefs.current[index]?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
             >
               <div className={styles.dot}></div>
               <h3>{chapter.title}</h3>

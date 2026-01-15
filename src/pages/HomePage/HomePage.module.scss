@@ -1,0 +1,173 @@
+.homepageRoot {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+/* This creates the scroll distance needed for the zoom phase + transition */
+.scrollTrack {
+  height: 200vh; /* allow scroll to skin analysis section */
+}
+
+/* Sticky viewport: stays fixed while scrolling through scrollTrack */
+.viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Shared layer wrapper */
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.fadeOut {
+  opacity: 0;
+}
+
+/* Full-bleed video */
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Overlay for readability */
+.gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.08),
+    rgba(0, 0, 0, 0.42)
+  );
+}
+
+/* HERO content */
+.heroContent {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1.5rem;
+  color: #fff;
+}
+
+.kicker {
+  opacity: 0.9;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+}
+
+.brand {
+  opacity: 0.95;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+}
+
+.heroTitle {
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  line-height: 1.05;
+  margin: 0 0 1rem;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.italic {
+  font-style: italic;
+  opacity: 0.95;
+}
+
+.heroSub {
+  max-width: 52ch;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+/* Skin analysis buttons */
+.skinBtns {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1.5rem;
+  color: #fff;
+}
+
+.skinTitle {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.skinBtn {
+  font-size: 1.1rem;
+  padding: 0.9rem 2.2rem;
+  background: #fff;
+  color: #1a1a1a;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+}
+
+.skinNote {
+  margin-top: 1rem;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+/* Modal */
+.homepageModal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepageModalContent {
+  background: #fff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+  max-width: min(900px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.homepageModalClose {
+  font-size: 1rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 0.75rem;
+  background: #222;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+/* optional extra page space */
+.afterSpace {
+  display: none;
+}

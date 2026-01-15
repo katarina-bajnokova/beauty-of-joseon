@@ -1,0 +1,332 @@
+// ============================================
+// TYPOGRAPHY - Beauty of Joseon
+// ============================================
+// Font families, sizes, weights, and styles
+
+// Import Google Fonts
+@import url("https://fonts.googleapis.com/css2?family=Amiri:wght@400;700;800&family=Inter:wght@300;400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap");
+
+// ============================================
+// FONT FAMILIES
+// ============================================
+$font-family-heading: "Amiri", serif; // Elegant serif for headings
+$font-family-body: "Inter", sans-serif; // Clean sans-serif for body
+$font-family-button: "Figtree", sans-serif; // Modern sans-serif for buttons
+$font-family-mono: "Courier New", monospace; // Monospace for code
+
+// ============================================
+// FONT WEIGHTS
+// ============================================
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// ============================================
+// FONT SIZES - Mobile First
+// ============================================
+// Base size: 16px (1rem)
+
+// Headings
+$font-size-h1: 2.5rem; // 40px
+$font-size-h2: 2rem; // 32px
+$font-size-h3: 1.75rem; // 28px
+$font-size-h4: 1.5rem; // 24px
+$font-size-h5: 1.25rem; // 20px
+$font-size-h6: 1.125rem; // 18px
+
+// Body
+$font-size-base: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-md: 1rem; // 16px
+$font-size-sm: 0.875rem; // 14px
+$font-size-xs: 0.75rem; // 12px
+
+// Display (Hero)
+$font-size-display-1: 4rem; // 64px
+$font-size-display-2: 3.5rem; // 56px
+$font-size-display-3: 3rem; // 48px
+
+// Buttons
+$font-size-btn-lg: 1.125rem; // 18px
+$font-size-btn-md: 1rem; // 16px
+$font-size-btn-sm: 0.875rem; // 14px
+$font-size-btn-xs: 0.75rem; // 12px
+
+// ============================================
+// FONT SIZES - Desktop (min-width: 768px)
+// ============================================
+$font-size-h1-desktop: 3.5rem; // 56px
+$font-size-h2-desktop: 2.5rem; // 40px
+$font-size-h3-desktop: 2rem; // 32px
+$font-size-h4-desktop: 1.75rem; // 28px
+$font-size-h5-desktop: 1.5rem; // 24px
+$font-size-h6-desktop: 1.25rem; // 20px
+
+$font-size-display-1-desktop: 5rem; // 80px
+$font-size-display-2-desktop: 4.5rem; // 72px
+$font-size-display-3-desktop: 4rem; // 64px
+
+// ============================================
+// LINE HEIGHTS
+// ============================================
+$line-height-tight: 1.2;
+$line-height-snug: 1.375;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.625;
+$line-height-loose: 2;
+
+// Specific line heights
+$line-height-heading: $line-height-tight;
+$line-height-body: $line-height-normal;
+$line-height-button: $line-height-snug;
+
+// ============================================
+// LETTER SPACING
+// ============================================
+$letter-spacing-tighter: -0.05em;
+$letter-spacing-tight: -0.025em;
+$letter-spacing-normal: 0;
+$letter-spacing-wide: 0.025em;
+$letter-spacing-wider: 0.05em;
+$letter-spacing-widest: 0.1em;
+
+// Specific letter spacing
+$letter-spacing-heading: $letter-spacing-tight;
+$letter-spacing-body: $letter-spacing-normal;
+$letter-spacing-button: $letter-spacing-wide;
+$letter-spacing-uppercase: $letter-spacing-wider;
+
+// ============================================
+// HEADING STYLES
+// ============================================
+@mixin heading-base {
+  font-family: $font-family-heading;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+  letter-spacing: $letter-spacing-heading;
+  color: var(--text-primary, #212121);
+  margin: 0;
+}
+
+@mixin h1 {
+  @include heading-base;
+  font-size: $font-size-h1;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-h1-desktop;
+  }
+}
+
+@mixin h2 {
+  @include heading-base;
+  font-size: $font-size-h2;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-h2-desktop;
+  }
+}
+
+@mixin h3 {
+  @include heading-base;
+  font-size: $font-size-h3;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-h3-desktop;
+  }
+}
+
+@mixin h4 {
+  @include heading-base;
+  font-size: $font-size-h4;
+  font-weight: $font-weight-semibold;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-h4-desktop;
+  }
+}
+
+@mixin h5 {
+  @include heading-base;
+  font-size: $font-size-h5;
+  font-weight: $font-weight-semibold;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-h5-desktop;
+  }
+}
+
+@mixin h6 {
+  @include heading-base;
+  font-size: $font-size-h6;
+  font-weight: $font-weight-medium;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-h6-desktop;
+  }
+}
+
+// Display headings (hero sections)
+@mixin display-1 {
+  @include heading-base;
+  font-size: $font-size-display-1;
+  font-weight: $font-weight-extrabold;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-display-1-desktop;
+  }
+}
+
+@mixin display-2 {
+  @include heading-base;
+  font-size: $font-size-display-2;
+  font-weight: $font-weight-extrabold;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-display-2-desktop;
+  }
+}
+
+@mixin display-3 {
+  @include heading-base;
+  font-size: $font-size-display-3;
+  font-weight: $font-weight-bold;
+
+  @media (min-width: 768px) {
+    font-size: $font-size-display-3-desktop;
+  }
+}
+
+// ============================================
+// BODY TEXT STYLES
+// ============================================
+@mixin body-base {
+  font-family: $font-family-body;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-body;
+  letter-spacing: $letter-spacing-body;
+  color: var(--text-primary, #212121);
+}
+
+@mixin body-lg {
+  @include body-base;
+  font-size: $font-size-lg;
+}
+
+@mixin body {
+  @include body-base;
+  font-size: $font-size-md;
+}
+
+@mixin body-sm {
+  @include body-base;
+  font-size: $font-size-sm;
+}
+
+@mixin body-xs {
+  @include body-base;
+  font-size: $font-size-xs;
+}
+
+// Body variants
+@mixin body-medium {
+  @include body;
+  font-weight: $font-weight-medium;
+}
+
+@mixin body-semibold {
+  @include body;
+  font-weight: $font-weight-semibold;
+}
+
+@mixin body-bold {
+  @include body;
+  font-weight: $font-weight-bold;
+}
+
+// ============================================
+// BUTTON TEXT STYLES
+// ============================================
+@mixin button-base {
+  font-family: $font-family-button;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-button;
+  letter-spacing: $letter-spacing-button;
+  text-transform: none;
+}
+
+@mixin button-lg {
+  @include button-base;
+  font-size: $font-size-btn-lg;
+}
+
+@mixin button {
+  @include button-base;
+  font-size: $font-size-btn-md;
+}
+
+@mixin button-sm {
+  @include button-base;
+  font-size: $font-size-btn-sm;
+}
+
+@mixin button-xs {
+  @include button-base;
+  font-size: $font-size-btn-xs;
+}
+
+// ============================================
+// UTILITY TEXT STYLES
+// ============================================
+@mixin caption {
+  font-family: $font-family-body;
+  font-size: $font-size-sm;
+  line-height: $line-height-snug;
+  color: var(--text-secondary, #4a4948);
+}
+
+@mixin overline {
+  font-family: $font-family-button;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: var(--text-tertiary, #6c6b69);
+}
+
+@mixin label {
+  font-family: $font-family-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-snug;
+  color: var(--text-primary, #212121);
+}
+
+@mixin link {
+  font-family: $font-family-body;
+  color: var(--text-link, #d997b3);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--text-link-hover, #cc749b);
+    text-decoration: underline;
+  }
+}
+
+@mixin code {
+  font-family: $font-family-mono;
+  font-size: 0.875em;
+  background: var(--bg-tertiary, #f8f7f5);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0;
+}
+
+// ============================================
+// GOOGLE FONTS IMPORT
+// ============================================
+// Add this to your main.scss or index.html:
+// @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap');

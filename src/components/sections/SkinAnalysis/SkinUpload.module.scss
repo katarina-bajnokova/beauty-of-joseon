@@ -1,0 +1,36 @@
+@import "../../../styles/base/_semantic-colors.scss";
+.uploadSection {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $bg-primary;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin-bottom: 2rem;
+}
+
+.options {
+  display: flex;
+  gap: 2rem;
+}
+
+.cameraBtn,
+.uploadBtn {
+  font-size: 1.1rem;
+  padding: 1rem 2.5rem;
+  background: $bg-accent;
+  color: $text-inverse;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.uploadBtn input {
+  display: none;
+}

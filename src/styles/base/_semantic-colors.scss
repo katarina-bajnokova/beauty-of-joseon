@@ -1,0 +1,200 @@
+// ============================================
+// SEMANTIC COLORS - Beauty of Joseon
+// ============================================
+// Maps primitive colors to semantic purposes
+// Import primitives: @import './variables';
+
+@import "./variables";
+
+// ============================================
+// TEXT COLORS
+// ============================================
+$text-primary: $neutral-900; // Main text color
+$text-secondary: $neutral-700; // Secondary text
+$text-tertiary: $neutral-600; // Tertiary/muted text
+$text-disabled: $neutral-400; // Disabled state text
+$text-inverse: $neutral-0; // Text on dark backgrounds
+$text-link: $primary-600; // Hyperlinks
+$text-link-hover: $primary-700; // Hovered links
+$text-brand: $primary-500; // Brand-colored text
+$text-accent: $secondary-600; // Accent text
+$text-success: $success-700; // Success messages
+$text-error: $error-700; // Error messages
+$text-warning: $warning-800; // Warning messages
+$text-info: $info-700; // Info messages
+
+// ============================================
+// BACKGROUND COLORS
+// ============================================
+$bg-primary: $neutral-0; // Main page background
+$bg-secondary: $neutral-50; // Secondary background
+$bg-tertiary: $neutral-100; // Cards, sections
+$bg-elevated: $neutral-0; // Elevated elements (modals, dropdowns)
+$bg-inverse: $neutral-900; // Dark backgrounds
+$bg-brand: $primary-500; // Brand background
+$bg-brand-subtle: $primary-50; // Subtle brand background
+$bg-accent: $secondary-500; // Accent background
+$bg-accent-subtle: $secondary-50; // Subtle accent background
+$bg-success: $success-50; // Success background
+$bg-error: $error-50; // Error background
+$bg-warning: $warning-50; // Warning background
+$bg-info: $info-50; // Info background
+$bg-overlay: rgba($neutral-900, 0.6); // Modal/overlay background
+$bg-hover: $neutral-100; // Hover state background
+$bg-active: $neutral-200; // Active/pressed state
+$bg-disabled: $neutral-200; // Disabled state background
+
+// ============================================
+// BORDER COLORS
+// ============================================
+$border-primary: $neutral-300; // Default borders
+$border-secondary: $neutral-200; // Subtle borders
+$border-tertiary: $neutral-100; // Very subtle borders
+$border-strong: $neutral-500; // Strong borders
+$border-inverse: $neutral-700; // Borders on dark backgrounds
+$border-brand: $primary-500; // Brand borders
+$border-accent: $secondary-500; // Accent borders
+$border-success: $success-500; // Success borders
+$border-error: $error-500; // Error borders
+$border-warning: $warning-500; // Warning borders
+$border-info: $info-500; // Info borders
+$border-focus: $primary-500; // Focus state borders
+
+// ============================================
+// BUTTON COLORS
+// ============================================
+// Primary Button
+$btn-primary-bg: $primary-500;
+$btn-primary-bg-hover: $primary-600;
+$btn-primary-bg-active: $primary-700;
+$btn-primary-text: $neutral-0;
+$btn-primary-border: $primary-500;
+
+// Secondary Button
+$btn-secondary-bg: $secondary-500;
+$btn-secondary-bg-hover: $secondary-600;
+$btn-secondary-bg-active: $secondary-700;
+$btn-secondary-text: $neutral-0;
+$btn-secondary-border: $secondary-500;
+
+// Outline Button
+$btn-outline-bg: transparent;
+$btn-outline-bg-hover: $primary-50;
+$btn-outline-bg-active: $primary-100;
+$btn-outline-text: $primary-600;
+$btn-outline-text-hover: $primary-700;
+$btn-outline-border: $primary-500;
+
+// Ghost Button
+$btn-ghost-bg: transparent;
+$btn-ghost-bg-hover: $neutral-100;
+$btn-ghost-bg-active: $neutral-200;
+$btn-ghost-text: $neutral-700;
+$btn-ghost-text-hover: $neutral-900;
+
+// Disabled Button
+$btn-disabled-bg: $neutral-200;
+$btn-disabled-text: $neutral-400;
+$btn-disabled-border: $neutral-200;
+
+// ============================================
+// FORM COLORS
+// ============================================
+$input-bg: $neutral-0;
+$input-bg-disabled: $neutral-100;
+$input-text: $neutral-900;
+$input-placeholder: $neutral-500;
+$input-border: $neutral-300;
+$input-border-hover: $neutral-400;
+$input-border-focus: $primary-500;
+$input-border-error: $error-500;
+$input-border-success: $success-500;
+
+// ============================================
+// SURFACE COLORS
+// ============================================
+$surface-card: $neutral-0; // Card backgrounds
+$surface-card-hover: $neutral-50; // Card hover state
+$surface-modal: $neutral-0; // Modal backgrounds
+$surface-tooltip: $neutral-900; // Tooltip backgrounds
+$surface-dropdown: $neutral-0; // Dropdown menus
+$surface-header: $neutral-50; // Header background
+$surface-footer: $neutral-100; // Footer background
+$surface-sidebar: $neutral-50; // Sidebar background
+
+// ============================================
+// SHADOW COLORS
+// ============================================
+$shadow-sm: 0 1px 2px 0 rgba($neutral-900, 0.05);
+$shadow-md: 0 4px 6px -1px rgba($neutral-900, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba($neutral-900, 0.1);
+$shadow-xl: 0 20px 25px -5px rgba($neutral-900, 0.1);
+$shadow-2xl: 0 25px 50px -12px rgba($neutral-900, 0.25);
+$shadow-inner: inset 0 2px 4px 0 rgba($neutral-900, 0.06);
+$shadow-brand: 0 4px 14px 0 rgba($primary-500, 0.25);
+$shadow-accent: 0 4px 14px 0 rgba($secondary-500, 0.25);
+
+// ============================================
+// INTERACTIVE STATES
+// ============================================
+$state-hover: $neutral-100;
+$state-active: $neutral-200;
+$state-focus: $primary-100;
+$state-selected: $primary-50;
+$state-disabled: $neutral-200;
+
+// ============================================
+// FEEDBACK COLORS
+// ============================================
+$feedback-success-bg: $success-50;
+$feedback-success-text: $success-800;
+$feedback-success-border: $success-500;
+$feedback-success-icon: $success-600;
+
+$feedback-error-bg: $error-50;
+$feedback-error-text: $error-800;
+$feedback-error-border: $error-500;
+$feedback-error-icon: $error-600;
+
+$feedback-warning-bg: $warning-50;
+$feedback-warning-text: $warning-900;
+$feedback-warning-border: $warning-500;
+$feedback-warning-icon: $warning-700;
+
+$feedback-info-bg: $info-50;
+$feedback-info-text: $info-800;
+$feedback-info-border: $info-500;
+$feedback-info-icon: $info-600;
+
+// ============================================
+// BRAND SPECIFIC
+// ============================================
+$brand-plum: $primary-500; // Main plum pink
+$brand-gold: $secondary-500; // Gold accent
+$brand-cream: $neutral-50; // Cream background
+$brand-charcoal: $neutral-900; // Dark text
+
+// ============================================
+// GRADIENT COLORS
+// ============================================
+$gradient-primary: linear-gradient(135deg, $primary-500 0%, $primary-600 100%);
+$gradient-secondary: linear-gradient(
+  135deg,
+  $secondary-500 0%,
+  $secondary-600 100%
+);
+$gradient-brand: linear-gradient(135deg, $primary-500 0%, $secondary-500 100%);
+$gradient-subtle: linear-gradient(180deg, $neutral-50 0%, $neutral-100 100%);
+$gradient-hero: linear-gradient(135deg, $primary-50 0%, $secondary-50 100%);
+$gradient-accent: linear-gradient(
+  90deg,
+  $secondary-400 0%,
+  $secondary-500 100%
+);
+
+// ============================================
+// SEMANTIC ALIASES (for backward compatibility)
+// ============================================
+$border-default: $border-primary; // Alias for border-primary
+$border-subtle: $border-secondary; // Alias for border-secondary
+$bg-page: $bg-primary; // Alias for page background

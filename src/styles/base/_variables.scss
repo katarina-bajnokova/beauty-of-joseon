@@ -1,6 +1,115 @@
-$color-porcelain: #faf9f7;
+// ============================================
+// COLOR PRIMITIVES - Beauty of Joseon
+// ============================================
+
+// Primary Color - Plum Pink (#E6BACB)
+// Main brand color, used for primary actions and key elements
+$primary-50: #fdf5f8;
+$primary-100: #fae9f0;
+$primary-200: #f5d4e3;
+$primary-300: #f0bed6;
+$primary-400: #eba8c9;
+$primary-500: #e6bacb; // Main primary
+$primary-600: #d997b3;
+$primary-700: #cc749b;
+$primary-800: #b85583;
+$primary-900: #a4366b;
+
+// Secondary Color - Gold (#DAB668)
+// Accent color for highlights and special elements
+$secondary-50: #fdfaf2;
+$secondary-100: #faf3df;
+$secondary-200: #f5e7bf;
+$secondary-300: #f0db9f;
+$secondary-400: #ebcf7f;
+$secondary-500: #dab668; // Main secondary
+$secondary-600: #c9a355;
+$secondary-700: #b89042;
+$secondary-800: #a67d2f;
+$secondary-900: #8a671c;
+
+// Neutral Colors - Off White & Dark (#FCFBF9, #212121)
+// Background, text, and structural elements
+$neutral-0: #ffffff;
+$neutral-50: #fcfbf9; // Main light background
+$neutral-100: #f8f7f5;
+$neutral-200: #f0efed;
+$neutral-300: #e8e7e5;
+$neutral-400: #d0cfcd;
+$neutral-500: #9e9d9b;
+$neutral-600: #6c6b69;
+$neutral-700: #4a4948;
+$neutral-800: #2f2e2d;
+$neutral-900: #212121; // Main dark text
+
+// Accent Color - Soft Mauve (derived from primary)
+// Subtle accents and hover states
+$accent-50: #f9f3f6;
+$accent-100: #f2e7ed;
+$accent-200: #e5cfd9;
+$accent-300: #d9b7c6;
+$accent-400: #cc9fb3;
+$accent-500: #c087a0;
+$accent-600: #b36f8d;
+$accent-700: #a6577a;
+$accent-800: #8f4067;
+$accent-900: #782854;
+
+// Semantic Colors
+// Success - Soft Green
+$success-50: #f0f8f4;
+$success-100: #e1f1e9;
+$success-200: #c3e3d3;
+$success-300: #a5d5bd;
+$success-400: #87c7a7;
+$success-500: #69b991;
+$success-600: #54a47a;
+$success-700: #3f8f63;
+$success-800: #2a7a4c;
+$success-900: #156535;
+
+// Error - Soft Red
+$error-50: #fef2f2;
+$error-100: #fee5e5;
+$error-200: #fdcbcb;
+$error-300: #fcb1b1;
+$error-400: #fb9797;
+$error-500: #fa7d7d;
+$error-600: #f95c5c;
+$error-700: #f83b3b;
+$error-800: #e61a1a;
+$error-900: #c40f0f;
+
+// Warning - Warm Gold
+$warning-50: #fffbf0;
+$warning-100: #fff7e1;
+$warning-200: #ffefc3;
+$warning-300: #ffe7a5;
+$warning-400: #ffdf87;
+$warning-500: #ffd769;
+$warning-600: #ffcf4b;
+$warning-700: #ffc72d;
+$warning-800: #f5b800;
+$warning-900: #d79f00;
+
+// Info - Soft Blue
+$info-50: #f0f7fd;
+$info-100: #e1effb;
+$info-200: #c3dff7;
+$info-300: #a5cff3;
+$info-400: #87bfef;
+$info-500: #69afeb;
+$info-600: #4b9fe7;
+$info-700: #2d8fe3;
+$info-800: #1a7dcf;
+$info-900: #0f6bb1;
+
+// ============================================
+// LEGACY COLORS (for backwards compatibility)
+// ============================================
+$color-porcelain: $neutral-50;
 $color-celadon: #c8dcc3;
-$color-ginseng-gold: #d7b674;
-$color-plum-tint: #e9d6df;
-$color-rice-ivory: #f3eee8;
+$color-ginseng-gold: $secondary-500;
+$color-plum-tint: $primary-200;
+$color-rice-ivory: $neutral-100;
 $color-ink-indigo: #1a2235;

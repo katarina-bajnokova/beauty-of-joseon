@@ -115,43 +115,13 @@ export default function useSkinAnalysis() {
       try {
         const aiResults = await performAISkinAnalysis(img, landmarks);
 
-        // Create comprehensive metrics array
+        // Create metrics array - only showing reliably measurable data
         const metrics = [
           {
             label: "Skin Smoothness",
             value: aiResults.metrics.smoothness,
             type: "score",
             icon: "✨",
-          },
-          {
-            label: "Blemish Control",
-            value: aiResults.acne.score,
-            type: "score",
-            icon: "🎯",
-          },
-          {
-            label: "Skin Tone Evenness",
-            value: aiResults.metrics.evenTone,
-            type: "score",
-            icon: "🌟",
-          },
-          {
-            label: "Anti-Aging",
-            value: aiResults.metrics.antiAging,
-            type: "score",
-            icon: "⏰",
-          },
-          {
-            label: "Hydration Level",
-            value: aiResults.metrics.hydration,
-            type: "score",
-            icon: "💧",
-          },
-          {
-            label: "Brightness",
-            value: aiResults.metrics.brightness,
-            type: "score",
-            icon: "☀️",
           },
         ];
 
@@ -177,20 +147,26 @@ export default function useSkinAnalysis() {
           },
           hydration: {
             level: aiResults.hydration.hydration,
-            dehydration: aiResults.hydration.dehydration,
+            lightness: aiResults.hydration.lightness,
+            uniformity: aiResults.hydration.uniformity,
           },
         };
 
-        const averageScore = Math.round(
-          metrics.reduce((sum, m) => sum + m.value, 0) / metrics.length
-        );
+        // Calculate average based on smoothness only
+        const averageScore = aiResults.metrics.smoothness;
 
-        setAnalysis(metrics);
+        setAnalysis({
+          metrics,
+          confidence: aiResults.confidence, // Add confidence data
+          detailed: detailedAnalysis,
+          regionalAnalysis: aiResults.regionalAnalysis, // Add regional analysis
+        });
         setAverageScore(averageScore);
         setRecommended(
           getRecommendations({
             metrics: aiResults.metrics,
             detailed: detailedAnalysis,
+            regional: aiResults.regionalAnalysis,
           })
         );
       } catch (error) {
