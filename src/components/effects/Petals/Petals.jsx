@@ -2,9 +2,9 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 const PETAL_IMAGES = [
-  "/petals/petal1.png",
-  "/petals/petal2.png",
-  "/petals/petal3.png",
+  `${import.meta.env.BASE_URL}petals/petal1.png`,
+  `${import.meta.env.BASE_URL}petals/petal2.png`,
+  `${import.meta.env.BASE_URL}petals/petal3.png`,
 ];
 
 const Petals = () => {

@@ -22,11 +22,7 @@ export default function SkinAnalysis() {
 
         {previewUrl && (
           <label className={styles.uploadButton}>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-            />
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
             Upload New Image
           </label>
         )}
@@ -54,98 +50,127 @@ export default function SkinAnalysis() {
                 </>
               ) : (
                 <label className={styles.uploadButton}>
-                  <input type="file" accept="image/*" onChange={handleImageUpload} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
                   Upload Image
                 </label>
               )}
             </div>
           </div>
 
-          {isScanning ? ( <div className={styles.rightCol}>
-                              {/* Scan Line */}
-                  <div
-                    className={styles.scanLine}
-                    style={{ top: `${scanProgress * 100}%` }}
-                  />
+          {isScanning ? (
+            <div className={styles.rightCol}>
+              {/* Scan Line */}
+              <div
+                className={styles.scanLine}
+                style={{ top: `${scanProgress * 100}%` }}
+              />
 
-                  {/* “Analyzing…” text steps */}
-                  <AnalyzingSteps
-                    scanProgress={scanProgress}
-                    isScanning={isScanning}
-                  />
-          </div>) : (<></>)}
+              {/* “Analyzing…” text steps */}
+              <AnalyzingSteps
+                scanProgress={scanProgress}
+                isScanning={isScanning}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
 
           {/* RIGHT SIDE — RESULTS + PRODUCTS */}
-          {analysis ? ( 
-          <div className={styles.rightCol}>
-            {analysis && (
-              <div className={styles.results}>
-                 {/* Average score */}
-                <div className={styles.averageBox}>
-                  <p>Skin Health Score</p>
-                  <h2>{averageScore}%</h2>
-                  <div className={styles.progressBar}>
-                    <div
-                      className={styles.progressFill}
-                      style={{ width: `${averageScore}%` }}
-                    />
+          {analysis ? (
+            <div className={styles.rightCol}>
+              {analysis && (
+                <div className={styles.results}>
+                  {/* Average score */}
+                  <div className={styles.averageBox}>
+                    <p>Skin Health Score</p>
+                    <h2>{averageScore}%</h2>
+                    <div className={styles.progressBar}>
+                      <div
+                        className={styles.progressFill}
+                        style={{ width: `${averageScore}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Absolute metrics */}
+                  <div className={styles.metricGrid3}>
+                    {analysis
+                      .filter((m) => m.type === "absolute")
+                      .map((m) => (
+                        <div key={m.label} className={styles.metricCard}>
+                          <span className={styles.metricLabel}>{m.label}</span>
+
+                          <span className={styles.absoluteValue}>
+                            {m.value}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+
+                  {/* Score metrics */}
+                  <div className={styles.metricGrid2}>
+                    {analysis
+                      .filter((m) => m.type === "score")
+                      .map((m) => (
+                        <div key={m.label} className={styles.metricCard}>
+                          <span className={styles.metricLabel}>
+                            {m.icon && (
+                              <span className={styles.metricIcon}>
+                                {m.icon}
+                              </span>
+                            )}
+                            {m.label}
+                          </span>
+                          <div className={styles.borderCircleWrapper}>
+                            <div
+                              className={styles.borderCircleOuter}
+                              style={{
+                                "--fill-deg": `${m.value * 3.6}deg`,
+                              }}
+                            />
+                            <div className={styles.borderCircleInner}></div>
+                            <span className={styles.circleValue}>
+                              {m.value}%
+                            </span>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
 
-                 {/* Absolute metrics */}
-                <div className={styles.metricGrid3}>
-                  {analysis.filter((m) => m.type === "absolute").map((m) => (
-                    <div key={m.label} className={styles.metricCard}>
-                      <span className={styles.metricLabel}>{m.label}</span>
+          {analysis ? (
+            <div className={styles.rightCol}>
+              {recommended.length > 0 && (
+                <div className={styles.recommendations}>
+                  <h3>Recommended Products</h3>
 
-                      <span className={styles.absoluteValue}>{m.value}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Score metrics */}
-                <div className={styles.metricGrid2}>
-                  {analysis.filter((m) => m.type === "score").map((m) => (
-                    <div key={m.label} className={styles.metricCard}>
-                      <span className={styles.metricLabel}>{m.label}</span>
-                      <div className={styles.borderCircleWrapper}>
-                        <div
-                          className={styles.borderCircleOuter}
-                          style={{
-                            "--fill-deg": `${m.value * 3.6}deg`,
-                          }}
+                  <div className={styles.productGrid}>
+                    {recommended.map((p) => (
+                      <div key={p.id} className={styles.productCard}>
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className={styles.productImage}
                         />
-                        <div className={styles.borderCircleInner}></div>
-                        <span className={styles.circleValue}>{m.value}%</span>
+                        <p>{p.name}</p>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}         
-          </div>) : (<></>)}
-
-          {analysis ? ( 
-          <div className={styles.rightCol}>
-            {recommended.length > 0 && (
-              <div className={styles.recommendations}>
-                <h3>Recommended Products</h3>
-
-                <div className={styles.productGrid}>
-                  {recommended.map((p) => (
-                    <div key={p.id} className={styles.productCard}>
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        className={styles.productImage}
-                      />
-                      <p>{p.name}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>) : (<></>)}
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </section>

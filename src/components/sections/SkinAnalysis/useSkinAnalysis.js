@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaceLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
 import { getRecommendations } from "./useProductRecommendations";
 import useScanEffect from "./useScanEffect";
+import { performAISkinAnalysis } from "./aiSkinAnalysis";
 
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 const toScore = (value, min, max) => {
@@ -109,8 +110,101 @@ export default function useSkinAnalysis() {
       setIsLoading(false);
 
       // -----------------------------------
-      // START FULL IMAGE ANALYSIS
+      // START AI-POWERED ANALYSIS
       // -----------------------------------
+      try {
+        const aiResults = await performAISkinAnalysis(img, landmarks);
+
+        // Create comprehensive metrics array
+        const metrics = [
+          {
+            label: "Skin Smoothness",
+            value: aiResults.metrics.smoothness,
+            type: "score",
+            icon: "✨",
+          },
+          {
+            label: "Blemish Control",
+            value: aiResults.acne.score,
+            type: "score",
+            icon: "🎯",
+          },
+          {
+            label: "Skin Tone Evenness",
+            value: aiResults.metrics.evenTone,
+            type: "score",
+            icon: "🌟",
+          },
+          {
+            label: "Anti-Aging",
+            value: aiResults.metrics.antiAging,
+            type: "score",
+            icon: "⏰",
+          },
+          {
+            label: "Hydration Level",
+            value: aiResults.metrics.hydration,
+            type: "score",
+            icon: "💧",
+          },
+          {
+            label: "Brightness",
+            value: aiResults.metrics.brightness,
+            type: "score",
+            icon: "☀️",
+          },
+        ];
+
+        // Add detailed analysis data
+        const detailedAnalysis = {
+          texture: {
+            smoothness: aiResults.texture.smoothness,
+            roughness: aiResults.texture.roughness,
+          },
+          acne: {
+            count: aiResults.acne.count,
+            clusters: aiResults.acne.clusters,
+            severity: aiResults.acne.severity.toFixed(1),
+          },
+          tone: {
+            evenness: aiResults.tone.evenness,
+            darkSpots: aiResults.tone.darkSpotCount,
+            brightSpots: aiResults.tone.brightSpotCount,
+          },
+          wrinkles: {
+            score: aiResults.wrinkles.score,
+            intensity: aiResults.wrinkles.intensity.toFixed(2),
+          },
+          hydration: {
+            level: aiResults.hydration.hydration,
+            dehydration: aiResults.hydration.dehydration,
+          },
+        };
+
+        const averageScore = Math.round(
+          metrics.reduce((sum, m) => sum + m.value, 0) / metrics.length
+        );
+
+        setAnalysis(metrics);
+        setAverageScore(averageScore);
+        setRecommended(
+          getRecommendations({
+            metrics: aiResults.metrics,
+            detailed: detailedAnalysis,
+          })
+        );
+      } catch (error) {
+        console.error("AI Analysis error:", error);
+        // Fallback to basic analysis if AI fails
+        performBasicAnalysis();
+      }
+    };
+
+    // Fallback basic analysis function
+    const performBasicAnalysis = async () => {
+      const results = await landmarker.detect(img);
+      const landmarks = results.faceLandmarks?.[0];
+      if (!landmarks) return;
       const procCanvas = document.createElement("canvas");
       procCanvas.width = img.naturalWidth;
       procCanvas.height = img.naturalHeight;
