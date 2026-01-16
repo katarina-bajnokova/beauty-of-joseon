@@ -216,6 +216,7 @@
 
 .stepNumber {
   flex-shrink: 0;
+  margin-bottom: 20px;
 
   span {
     display: flex;
@@ -248,6 +249,20 @@
     color: $text-primary;
   }
 }
+
+                .stepImage {
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+        
+                  img {
+                    width: 100%;
+                    max-width: 120px;
+                    aspect-ratio: 1 / 1;
+                    object-fit: cover;
+                    border-radius: 0.75rem;
+                  }
+                }
 
 .stepMeta {
   display: flex;

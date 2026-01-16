@@ -149,13 +149,17 @@ export default function AIRoutineBuilder({ analysisData }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08 }}
             >
-              <div className={styles.stepNumber}>
-                <span>{step.step}</span>
-              </div>
-
               <div className={styles.stepContent}>
                 <div className={styles.stepHeader}>
-                  <h3>{step.name}</h3>
+                  <div className={styles.stepTitle}>
+                      <div className={styles.stepNumber}>
+                      <span>{step.step}</span>
+                    </div>
+                    <h3>{step.name}</h3>
+                  </div>
+                  <div className={styles.stepImage}>
+                      <img src={step.image} alt={step.name} />
+                  </div>
                   <div className={styles.stepMeta}>
                     <span className={styles.time}>
                       <FontAwesomeIcon icon={faClock} />

@@ -138,6 +138,7 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "30 seconds",
       reason: "Gently cleanses while maintaining skin's pH balance",
       importance: "essential",
+      image: "products/cleansing_balm.jpg",
     },
     {
       step: 2,
@@ -147,6 +148,7 @@ export function generatePersonalizedRoutine(analysisData) {
       reason:
         "Prepares skin to absorb next products and provides first layer of hydration",
       importance: "essential",
+      image: "products/green_plum_toner.jpg",
     },
     {
       step: 3,
@@ -158,6 +160,7 @@ export function generatePersonalizedRoutine(analysisData) {
           ? "Deeply hydrates and brightens dry areas"
           : "Brightens skin and helps support a balanced look",
       importance: "recommended",
+      image: "products/rice_milk.jpg",
     },
     {
       step: 4,
@@ -172,6 +175,7 @@ export function generatePersonalizedRoutine(analysisData) {
           ? "Supports oil balance and the look of pores in your T-zone"
           : "Nourishes and supports elasticity for dry-feeling skin",
       importance: "essential",
+      image: "products/glow_deep_serum.jpg",
     },
     {
       step: 5,
@@ -186,6 +190,7 @@ export function generatePersonalizedRoutine(analysisData) {
           ? "Richer moisture to support dry-feeling skin"
           : "Lightweight moisture that layers well",
       importance: "essential",
+      image: "products/dynasty-cream.jpg",
     },
     {
       step: 6,
@@ -195,6 +200,7 @@ export function generatePersonalizedRoutine(analysisData) {
       reason: "Daily UV protection is the foundation of any routine",
       importance: "essential",
       highlight: true,
+      image: "products/relief_sun.jpg",
     },
   ];
 
@@ -206,6 +212,7 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "1 minute",
       reason: "Removes sunscreen, makeup, and oil-based buildup",
       importance: "essential",
+      image: "products/relief_sun.jpg",
     },
     {
       step: 2,
@@ -214,6 +221,7 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "30 seconds",
       reason: "Second cleanse removes remaining impurities",
       importance: "essential",
+      image: "products/cleansing_balm.jpg",
     },
     {
       step: 3,
@@ -222,6 +230,7 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "10 seconds",
       reason: "Rebalances skin after cleansing and preps for actives",
       importance: "essential",
+      image: "products/green_plum_toner.jpg",
     },
     {
       step: 4,
@@ -230,6 +239,7 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "20 seconds",
       reason: "Hydration and brightening support overnight",
       importance: "recommended",
+      image: "products/rice_milk.jpg",
     },
     {
       step: 5,
@@ -243,6 +253,7 @@ export function generatePersonalizedRoutine(analysisData) {
         ? "Targets T-zone balance overnight"
         : "Supports repair and nourishment while you sleep",
       importance: "essential",
+      image: "products/revive_serum.jpg",
     },
     {
       step: 6,
@@ -251,6 +262,7 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "20 seconds",
       reason: "Targets the look of fine lines and under-eye brightness",
       importance: "recommended",
+      image: "products/honey_glow_mask.jpg",
     },
     {
       step: 7,
@@ -262,6 +274,7 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "30 seconds",
       reason: "Locks in layers and supports barrier overnight",
       importance: "essential",
+      image: "products/dynasty-cream.jpg",
     },
   ];
 
