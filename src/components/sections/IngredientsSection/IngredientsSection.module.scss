@@ -1,7 +1,6 @@
 @use "@/styles/base/index" as *;
 
 .ingredients {
-  text-align: center;
   padding: 7rem 2rem;
   position: relative;
 }
@@ -10,6 +9,7 @@
   @include apply-typography($text-page-title);
   color: $text-primary;
   margin-bottom: 0.6rem;
+  text-align: center;
 }
 
 .subtitle {
@@ -22,25 +22,22 @@
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 3.5rem;
   overflow: visible;
 }
 
 .item {
-  text-align: center;
   position: relative;
   overflow: visible;
 }
 
 .circle {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
+  width: 220px;
+  height: 220px;
   overflow: hidden;
   margin: 0 auto 1rem;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease;
 
   img {
@@ -51,46 +48,11 @@
 }
 
 .label {
-  @include apply-typography($text-card-subtitle);
+  @include apply-typography($text-card-title);
   color: $text-primary;
 }
 
-/* ✨ PREMIUM SIDE-NOTE TOOLTIP (DESKTOP ONLY) */
-.sideNote {
-  @include apply-typography($text-paragraph-small);
-  position: absolute;
-  left: 105%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 210px;
-  padding: 1.2rem 1.4rem;
-
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.95),
-    rgba(255, 248, 250, 0.92)
-  );
-  border: 1px solid $border-subtle;
-  backdrop-filter: blur(16px);
-
-  border-radius: 0;
-  box-shadow:
-    $shadow-lg,
-    0 0 12px rgba($primary-300, 0.25);
-
+.note {
+  @include apply-typography($text-card-body);
   color: $text-primary;
-  text-align: left;
-  z-index: 200;
-  pointer-events: none;
-}
-
-/* Hover refinement */
-.item:hover .sideNote {
-  transform: translateY(-50%) translateX(-2px);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-  box-shadow:
-    0 16px 40px rgba(0, 0, 0, 0.1),
-    0 0 18px rgba(214, 176, 200, 0.35);
 }

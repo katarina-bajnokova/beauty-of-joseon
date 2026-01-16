@@ -2,6 +2,8 @@
 import React, { useRef } from "react";
 import useSkinAnalysis from "../../components/sections/SkinAnalysis/useSkinAnalysis";
 import AIRoutineBuilder from "../../components/sections/SkinAnalysis/AIRoutineBuilder";
+import ValueHighlights from "../../components/sections/ValueHighlights/ValueHighlights";
+import IngredientsSection from "../../components/sections/IngredientsSection/IngredientsSection";
 import HeritageStory from "../../components/sections/HeritageStory/HeritageStory";
 import styles from "./SkinPage.module.scss";
 
@@ -104,6 +106,8 @@ function SkinPage() {
           <AIRoutineBuilder
             analysisData={{ analysis, averageScore, recommended }}
           />
+          <ValueHighlights />
+          <IngredientsSection />
           <HeritageStory />
         </>
       )}

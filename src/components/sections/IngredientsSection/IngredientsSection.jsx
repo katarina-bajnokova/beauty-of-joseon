@@ -4,40 +4,28 @@ import styles from "./IngredientsSection.module.scss";
 
 const ingredients = [
   {
-    name: "Ginseng",
-    img: "ingredients/ginseng.webp",
-    note: "Boosts circulation and revitalizes tired, dull skin.",
-  },
-  {
-    name: "Rice",
-    img: "ingredients/rice.webp",
-    note: "Brightens the complexion and improves skin clarity.",
-  },
-  {
     name: "Honey",
-    img: "ingredients/honey.webp",
-    note: "Deeply hydrates and provides natural antibacterial benefits.",
+    img: "ingredients/honey.png",
+    note: "Honey is a natural ingredient known for its moisturizing and soothing properties. It keep hydration, calm irritated skin, and support the skin’s natural barrier.",
   },
-  {
-    name: "Green Plum",
-    img: "ingredients/plum.webp",
-    note: "Gently exfoliates for smoother, clearer skin.",
-  },
-  {
-    name: "Cherry Blossom",
-    img: "ingredients/cherry.webp",
-    note: "Soothes irritation and enhances radiance.",
+    {
+    name: "Ginseng",
+    img: "ingredients/ginseng.png",
+    note: "Helps improve skin vitality and brightness by supporting circulation and promoting a healthy, refreshed-looking complexion.",
   },
   {
     name: "Centella",
-    img: "ingredients/centella.webp",
-    note: "Reduces redness and promotes healing.",
+    img: "ingredients/centella.png",
+    note: "Known for its calming and healing properties, it helps soothe sensitive skin, reduce redness, and support the skin’s natural repair process.",
+  },
+  {
+    name: "Rice",
+    img: "ingredients/rice.png",
+    note: "A gentle brightening ingredient that helps smooth skin texture and enhance natural glow while providing light hydration and softness.",
   },
 ];
 
 function IngredientsSection() {
-  const [hovered, setHovered] = useState(null);
-
   return (
     <section className={styles.ingredients}>
       <motion.h2
@@ -47,18 +35,8 @@ function IngredientsSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        Ingredients in Bloom
+        Key ingredients
       </motion.h2>
-
-      <motion.p
-        className={styles.subtitle}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      >
-        The natural Korean botanicals behind radiant, balanced skin.
-      </motion.p>
 
       <div className={styles.grid}>
         {ingredients.map((item, i) => (
@@ -73,27 +51,11 @@ function IngredientsSection() {
             <motion.div
               className={styles.circle}
               whileHover={{ scale: 1.07 }}
-              onHoverStart={() => setHovered(i)}
-              onHoverEnd={() => setHovered(null)}
             >
               <img src={item.img} alt={item.name} />
             </motion.div>
-
             <p className={styles.label}>{item.name}</p>
-
-            <AnimatePresence>
-              {hovered === i && (
-                <motion.div
-                  className={styles.sideNote}
-                  initial={{ opacity: 0, x: -6, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: -6, filter: "blur(4px)" }}
-                  transition={{ duration: 0.22 }}
-                >
-                  {item.note}
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <p className={styles.note}>{item.note}</p>
           </motion.div>
         ))}
       </div>
