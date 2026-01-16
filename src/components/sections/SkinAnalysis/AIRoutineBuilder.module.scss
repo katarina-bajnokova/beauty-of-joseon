@@ -1,7 +1,4 @@
-// AI Routine Builder Styles
-@import "@/styles/base/variables";
-@import "@/styles/base/semantic-colors";
-@import "@/styles/base/semantic-typography";
+@use "@/styles/base/index" as *;
 
 .container {
   margin: 3rem auto;

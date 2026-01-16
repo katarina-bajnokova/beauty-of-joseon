@@ -1,4 +1,5 @@
-@import "../../../styles/base/_semantic-colors.scss";
+@use "@/styles/base/index" as *;
+
 .uploadSection {
   min-height: 100vh;
   display: flex;

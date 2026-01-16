@@ -1,5 +1,4 @@
-/* src/pages/SkinPage/SkinPage.module.scss */
-@import "../../styles/base/_semantic-colors.scss";
+@use "@/styles/base/index" as *;
 
 .skinPageSection {
   min-height: 100vh;

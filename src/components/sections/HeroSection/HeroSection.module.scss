@@ -1,6 +1,4 @@
-@use "@/styles/base/variables" as *;
-@import "@/styles/base/semantic-colors";
-@import "@/styles/base/semantic-typography";
+@use "@/styles/base/index" as *;
 
 .hero {
   min-height: 100vh;

@@ -1,14 +1,5 @@
-// ============================================
-// SEMANTIC COLORS - Beauty of Joseon
-// ============================================
-// Maps primitive colors to semantic purposes
-// Import primitives: @import './variables';
+@use "./variables" as *;
 
-@import "./variables";
-
-// ============================================
-// TEXT COLORS
-// ============================================
 $text-primary: $neutral-900; // Main text color
 $text-secondary: $neutral-700; // Secondary text
 $text-tertiary: $neutral-600; // Tertiary/muted text

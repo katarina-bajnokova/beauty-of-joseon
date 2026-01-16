@@ -1,5 +1,4 @@
-// AI Skincare Advisor Chat Styles
-@import "@/styles/base/variables";
+@use "@/styles/base/index" as *;
 
 .chatButton {
   position: fixed;

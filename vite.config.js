@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  base: "/beauty-of-joseon/", // 👈 REQUIRED FOR GITHUB PAGES
+  base: "/beauty-of-joseon/",
   plugins: [react()],
   resolve: {
     alias: {

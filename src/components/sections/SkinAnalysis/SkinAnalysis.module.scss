@@ -1,5 +1,5 @@
-@import "@/styles/base/semantic-colors";
-// Skin analysis intro block anchored at bottom
+@use "@/styles/base/index" as *;
+
 .skinIntroBlock {
   position: absolute;
   left: 0;
@@ -90,9 +90,6 @@
   );
   pointer-events: none;
 }
-@import "@/styles/base/variables";
-@import "@/styles/base/semantic-colors";
-@import "@/styles/base/semantic-typography";
 
 .section {
   position: relative;

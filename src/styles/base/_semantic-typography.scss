@@ -1,14 +1,5 @@
-// ============================================
-// SEMANTIC TYPOGRAPHY - Beauty of Joseon
-// ============================================
-// Maps typography tokens to semantic purposes
-// Import typography: @import './typography';
+@use "./typography" as *;
 
-@import "./typography";
-
-// ============================================
-// PAGE STRUCTURE
-// ============================================
 $text-page-title: (
   font-family: $font-family-heading,
   font-size: $font-size-h1,
