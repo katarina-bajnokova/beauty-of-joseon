@@ -40,7 +40,7 @@ function SkinPage() {
           }`}
         >
           <video
-            src={`${base}videos/heritage/origins.mp4`}
+            src={`${base}videos/heritage/skinanalysis1.mp4`}
             autoPlay
             loop
             muted
@@ -56,7 +56,7 @@ function SkinPage() {
           }`}
         >
           <video
-            src={`${base}videos/heritage/today.mp4`}
+            src={`${base}videos/heritage/skinanalysis2.mp4`}
             autoPlay
             loop
             muted
