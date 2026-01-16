@@ -1,0 +1,56 @@
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 2.25rem;
+  transform: translateX(-50%);
+  z-index: 5;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  padding: 0.75rem 1.1rem;
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+
+  color: #fff;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
+  user-select: none;
+
+  opacity: 1;
+  pointer-events: auto;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(10px);
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}

@@ -1,15 +1,15 @@
-// src/pages/HomePage/HomePage.jsx
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import SkinAnalysis from "../../components/sections/SkinAnalysis/SkinAnalysis";
+import ScrollHint from "@/components/ui/ScrollHint/ScrollHint";
 import styles from "./HomePage.module.scss";
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
 function normalizeWheelDelta(e) {
   let d = e.deltaY;
-  if (e.deltaMode === 1) d *= 16; // lines -> px
-  if (e.deltaMode === 2) d *= window.innerHeight; // pages -> px
+  if (e.deltaMode === 1) d *= 16;
+  if (e.deltaMode === 2) d *= window.innerHeight;
   return d;
 }
 
@@ -25,13 +25,11 @@ export default function HomePage() {
   const timeoutRef = useRef(null);
   const rafRef = useRef(null);
 
-  // STORY tuning
   const zoomEnd = 600;
   const buffer = 80;
   const maxZoom = 1.5;
   const transitionMs = 400;
 
-  // VIRTUAL scroll
   const vScrollRef = useRef(0);
   const switchedRef = useRef(false);
   const transitioningRef = useRef(false);
@@ -39,109 +37,116 @@ export default function HomePage() {
   const [showSkin, setShowSkin] = useState(false);
   const [fade, setFade] = useState(false);
 
-  // Focus viewport so keyboard arrows work consistently
+  const [hideHint, setHideHint] = useState(false);
+  const hideHintRef = useRef(false);
+
   useEffect(() => {
-    viewportRef.current?.focus();
-    return () => {
-      clearTimeout(timeoutRef.current);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
+    const el = viewportRef.current;
+    if (!el) return;
 
-  const applyHeroZoom = useCallback(
-    (vScroll) => {
-      const video = heroVideoRef.current;
-      if (!video) return;
+    el.focus();
 
-      const progress = clamp(vScroll / zoomEnd, 0, 1);
-      const zoom = 1 + progress * (maxZoom - 1);
-      video.style.transform = `scale(${zoom})`;
-    },
-    [zoomEnd, maxZoom]
-  );
+    const onWheel = (e) => {
+      if (showModal) return;
+      if (e.ctrlKey) return;
 
-  const switchToSkin = useCallback(() => {
-    if (transitioningRef.current) return;
-    transitioningRef.current = true;
+      e.preventDefault();
 
-    setFade(true);
-    clearTimeout(timeoutRef.current);
+      if (!hideHintRef.current) {
+        hideHintRef.current = true;
+        setHideHint(true);
+      }
 
-    timeoutRef.current = setTimeout(() => {
-      switchedRef.current = true;
-      setShowSkin(true);
-      setFade(false);
-      transitioningRef.current = false;
-
-      // snap just beyond switch point to prevent bouncing back immediately
-      vScrollRef.current = zoomEnd + buffer + 220;
-    }, transitionMs);
-  }, [zoomEnd, buffer, transitionMs]);
-
-  const switchToHero = useCallback(() => {
-    if (transitioningRef.current) return;
-    transitioningRef.current = true;
-
-    setFade(true);
-    clearTimeout(timeoutRef.current);
-
-    timeoutRef.current = setTimeout(() => {
-      switchedRef.current = false;
-      setShowSkin(false);
-      setFade(false);
-      transitioningRef.current = false;
-
-      vScrollRef.current = 0;
-
-      const video = heroVideoRef.current;
-      if (video) video.style.transform = "scale(1)";
-    }, transitionMs);
-  }, [transitionMs]);
-
-  const tick = useCallback(() => {
-    rafRef.current = null;
-
-    const vScroll = vScrollRef.current;
-
-    if (!switchedRef.current) {
-      applyHeroZoom(vScroll);
-      if (vScroll >= zoomEnd + buffer) switchToSkin();
-    } else {
-      if (vScroll <= 100 - buffer) switchToHero();
-    }
-  }, [applyHeroZoom, zoomEnd, buffer, switchToHero, switchToSkin]);
-
-  const scheduleTick = useCallback(() => {
-    if (rafRef.current) return;
-    rafRef.current = requestAnimationFrame(tick);
-  }, [tick]);
-
-  const pushVirtualScroll = useCallback(
-    (delta) => {
-      if (!delta) return;
-
-      // allow extra “range” after switch so wheel still feels natural
+      const delta = normalizeWheelDelta(e);
       const maxVirtual = zoomEnd + buffer + 220 + 600;
 
       vScrollRef.current = clamp(vScrollRef.current + delta, 0, maxVirtual);
-      scheduleTick();
-    },
-    [zoomEnd, buffer, scheduleTick]
-  );
 
-  // Wheel handler on the viewport (most reliable)
-  const onWheelCapture = useCallback(
-    (e) => {
-      if (showModal) return; // don’t hijack scroll while modal is open
-      if (e.ctrlKey) return; // allow browser zoom
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(() => {
+          rafRef.current = null;
 
-      e.preventDefault();
-      pushVirtualScroll(normalizeWheelDelta(e));
-    },
-    [pushVirtualScroll, showModal]
-  );
+          const vScroll = vScrollRef.current;
 
-  // Touch (mobile)
+          if (!switchedRef.current) {
+            const video = heroVideoRef.current;
+            if (video) {
+              const progress = clamp(vScroll / zoomEnd, 0, 1);
+              const zoom = 1 + progress * (maxZoom - 1);
+              video.style.transform = `scale(${zoom})`;
+            }
+
+            if (vScroll >= zoomEnd + buffer && !transitioningRef.current) {
+              transitioningRef.current = true;
+              setFade(true);
+              clearTimeout(timeoutRef.current);
+
+              timeoutRef.current = setTimeout(() => {
+                switchedRef.current = true;
+                setShowSkin(true);
+                setFade(false);
+                transitioningRef.current = false;
+                vScrollRef.current = zoomEnd + buffer + 220;
+              }, transitionMs);
+            }
+          } else {
+            if (vScroll <= 100 - buffer && !transitioningRef.current) {
+              transitioningRef.current = true;
+              setFade(true);
+              clearTimeout(timeoutRef.current);
+
+              timeoutRef.current = setTimeout(() => {
+                switchedRef.current = false;
+                setShowSkin(false);
+                setFade(false);
+                transitioningRef.current = false;
+
+                vScrollRef.current = 0;
+
+                const video = heroVideoRef.current;
+                if (video) video.style.transform = "scale(1)";
+              }, transitionMs);
+            }
+          }
+        });
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      clearTimeout(timeoutRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [showModal, zoomEnd, buffer, maxZoom, transitionMs]);
+
+  const jumpToSkin = useCallback(() => {
+    hideHintRef.current = true;
+    setHideHint(true);
+
+    vScrollRef.current = zoomEnd + buffer + 220;
+
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+
+        if (!switchedRef.current && !transitioningRef.current) {
+          transitioningRef.current = true;
+          setFade(true);
+          clearTimeout(timeoutRef.current);
+
+          timeoutRef.current = setTimeout(() => {
+            switchedRef.current = true;
+            setShowSkin(true);
+            setFade(false);
+            transitioningRef.current = false;
+          }, transitionMs);
+        }
+      });
+    }
+  }, [zoomEnd, buffer, transitionMs]);
+
   const touchStartYRef = useRef(0);
 
   const onTouchStart = useCallback(
@@ -159,16 +164,22 @@ export default function HomePage() {
       if (!e.touches?.length) return;
 
       e.preventDefault();
+
+      if (!hideHintRef.current) {
+        hideHintRef.current = true;
+        setHideHint(true);
+      }
+
       const y = e.touches[0].clientY;
       const delta = (touchStartYRef.current - y) * 1.2;
       touchStartYRef.current = y;
 
-      pushVirtualScroll(delta);
+      const maxVirtual = zoomEnd + buffer + 220 + 600;
+      vScrollRef.current = clamp(vScrollRef.current + delta, 0, maxVirtual);
     },
-    [pushVirtualScroll, showModal]
+    [showModal, zoomEnd, buffer]
   );
 
-  // Keyboard
   const onKeyDown = useCallback(
     (e) => {
       if (showModal) return;
@@ -177,22 +188,18 @@ export default function HomePage() {
       if (!keys.includes(e.key)) return;
 
       e.preventDefault();
+
+      if (!hideHintRef.current) {
+        hideHintRef.current = true;
+        setHideHint(true);
+      }
+
       const step = e.key === "ArrowUp" || e.key === "PageUp" ? -120 : 120;
-      pushVirtualScroll(step);
+      const maxVirtual = zoomEnd + buffer + 220 + 600;
+      vScrollRef.current = clamp(vScrollRef.current + step, 0, maxVirtual);
     },
-    [pushVirtualScroll, showModal]
+    [showModal, zoomEnd, buffer]
   );
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setShowModal(true);
-
-    const reader = new FileReader();
-    reader.onload = (ev) => setUploadedImage(ev.target.result);
-    reader.readAsDataURL(file);
-  };
 
   return (
     <div className={styles.homepageRoot}>
@@ -200,12 +207,10 @@ export default function HomePage() {
         ref={viewportRef}
         className={styles.viewport}
         tabIndex={0}
-        onWheelCapture={onWheelCapture}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onKeyDown={onKeyDown}
       >
-        {/* Modal overlay for analysis */}
         {showModal && uploadedImage && (
           <div className={styles.homepageModal}>
             <div className={styles.homepageModalContent}>
@@ -220,7 +225,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* HERO VIDEO */}
         {!showSkin && (
           <div className={`${styles.layer} ${fade ? styles.fadeOut : ""}`}>
             <video
@@ -249,10 +253,15 @@ export default function HomePage() {
                 formulations for luminous, calm skin.
               </p>
             </div>
+
+            <ScrollHint
+              label="Scroll down to explore"
+              hidden={hideHint}
+              onActivate={jumpToSkin}
+            />
           </div>
         )}
 
-        {/* SKIN VIDEO */}
         {showSkin && (
           <div className={`${styles.layer} ${fade ? styles.fadeOut : ""}`}>
             <video
