@@ -28,8 +28,9 @@ function SkinPage() {
 
   return (
     <section className={styles.skinPageSection}>
-      <div className={styles.topRow}>
-        {/* LEFT VIDEO */}
+      <div
+        className={`${styles.topRow} ${isComplete ? styles.topRowCollapsed : ""}`}
+      >
         <div
           className={`${styles.heritageVideoPanel} ${
             isComplete ? styles.videoHidden : ""
@@ -45,7 +46,6 @@ function SkinPage() {
           />
         </div>
 
-        {/* RIGHT VIDEO (THIS WAS MISSING IN DOM BEFORE) */}
         <div
           className={`${styles.rightVideoPanel} ${
             isComplete ? styles.videoHidden : ""
@@ -61,7 +61,6 @@ function SkinPage() {
           />
         </div>
 
-        {/* CENTER PANEL */}
         <div
           className={`${styles.uploadPanel} ${
             isComplete ? styles.panelHidden : ""
@@ -103,7 +102,6 @@ function SkinPage() {
         </div>
       </div>
 
-      {/* RESULTS */}
       {analysis && (
         <>
           <AIRoutineBuilder
