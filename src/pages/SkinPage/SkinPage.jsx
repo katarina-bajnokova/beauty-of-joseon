@@ -31,6 +31,7 @@ function SkinPage() {
       <div
         className={`${styles.topRow} ${isComplete ? styles.topRowCollapsed : ""}`}
       >
+        {/* LEFT VIDEO */}
         <div
           className={`${styles.heritageVideoPanel} ${
             isComplete ? styles.videoHidden : ""
@@ -46,6 +47,7 @@ function SkinPage() {
           />
         </div>
 
+        {/* RIGHT VIDEO */}
         <div
           className={`${styles.rightVideoPanel} ${
             isComplete ? styles.videoHidden : ""
@@ -61,6 +63,7 @@ function SkinPage() {
           />
         </div>
 
+        {/* UPLOAD PANEL */}
         <div
           className={`${styles.uploadPanel} ${
             isComplete ? styles.panelHidden : ""
@@ -73,13 +76,6 @@ function SkinPage() {
           <div className={styles.options}>
             <button className={styles.uploadBtn} onClick={handleUploadClick}>
               {isComplete ? "Upload Another Image" : "Upload Image"}
-            </button>
-
-            <button
-              className={styles.cameraBtn}
-              onClick={() => alert("Camera feature coming soon!")}
-            >
-              Use Camera
             </button>
           </div>
 
@@ -102,6 +98,7 @@ function SkinPage() {
         </div>
       </div>
 
+      {/* RESULTS */}
       {analysis && (
         <>
           <AIRoutineBuilder

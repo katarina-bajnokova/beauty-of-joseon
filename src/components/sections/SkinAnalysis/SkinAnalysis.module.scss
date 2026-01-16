@@ -633,3 +633,8 @@
 .metricGrid2 .circleValue {
   font-size: 14px;
 }
+.spinnerText {
+  @include apply-typography($text-caption);
+  margin-top: 0.75rem;
+  color: $text-secondary;
+}

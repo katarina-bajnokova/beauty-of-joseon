@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSun,
@@ -13,29 +13,46 @@ import { generatePersonalizedRoutine } from "./routineGenerator";
 import styles from "./AIRoutineBuilder.module.scss";
 
 /**
- * AI Routine Builder - Generates personalized K-beauty routines
- * Based on skin analysis results using intelligent algorithms
+ * AI Routine Builder
+ * Accepts either:
+ *  - { analysis: <object>, averageScore, recommended }
+ *  - <object> directly (analysis result)
  */
 export default function AIRoutineBuilder({ analysisData }) {
   const [routine, setRoutine] = useState(null);
   const [activeTab, setActiveTab] = useState("am");
   const [isGenerating, setIsGenerating] = useState(false);
+  const timerRef = useRef(null);
 
-  useEffect(() => {
-    if (analysisData && analysisData.analysis) {
-      // Simulate AI processing
-      setIsGenerating(true);
-      setTimeout(() => {
-        const generated = generatePersonalizedRoutine(analysisData);
-        setRoutine(generated);
-        setIsGenerating(false);
-      }, 800);
-    }
+  // Normalize analysis payload (supports both shapes)
+  const normalized = useMemo(() => {
+    if (!analysisData) return null;
+
+    // If caller passed { analysis, averageScore, recommended }
+    if (analysisData.analysis) return analysisData;
+
+    // If caller passed analysis object directly
+    return { analysis: analysisData };
   }, [analysisData]);
 
-  if (!analysisData || !analysisData.analysis) {
-    return null;
-  }
+  useEffect(() => {
+    if (!normalized?.analysis) return;
+
+    setIsGenerating(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    timerRef.current = setTimeout(() => {
+      const generated = generatePersonalizedRoutine(normalized);
+      setRoutine(generated);
+      setIsGenerating(false);
+    }, 800);
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [normalized]);
+
+  if (!normalized?.analysis) return null;
 
   if (isGenerating) {
     return (
@@ -61,7 +78,6 @@ export default function AIRoutineBuilder({ analysisData }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerTitle}>
           <FontAwesomeIcon icon={faMagic} className={styles.headerIcon} />
@@ -74,19 +90,19 @@ export default function AIRoutineBuilder({ analysisData }) {
         </div>
       </div>
 
-      {/* Skin Type & Concerns */}
       <div className={styles.skinInfo}>
         <div className={styles.skinType}>
           <h4>Skin Type</h4>
           <span className={styles.badge}>{routine.skinType}</span>
         </div>
-        {routine.concerns.length > 0 && (
+
+        {routine.concerns?.length > 0 && (
           <div className={styles.concerns}>
             <h4>Key Concerns</h4>
             <div className={styles.concernsList}>
               {routine.concerns.map((concern, idx) => (
                 <span key={idx} className={styles.concernBadge}>
-                  {concern.replace(/-/g, " ")}
+                  {String(concern).replace(/[-_]/g, " ")}
                 </span>
               ))}
             </div>
@@ -94,27 +110,28 @@ export default function AIRoutineBuilder({ analysisData }) {
         )}
       </div>
 
-      {/* AM/PM Tabs */}
       <div className={styles.tabs}>
         <button
+          type="button"
           className={`${styles.tab} ${activeTab === "am" ? styles.active : ""}`}
           onClick={() => setActiveTab("am")}
         >
           <FontAwesomeIcon icon={faSun} />
           <span>Morning</span>
-          <small>{routine.totalTime.am}</small>
+          <small>{routine.totalTime?.am}</small>
         </button>
+
         <button
+          type="button"
           className={`${styles.tab} ${activeTab === "pm" ? styles.active : ""}`}
           onClick={() => setActiveTab("pm")}
         >
           <FontAwesomeIcon icon={faMoon} />
           <span>Evening</span>
-          <small>{routine.totalTime.pm}</small>
+          <small>{routine.totalTime?.pm}</small>
         </button>
       </div>
 
-      {/* Routine Steps */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
@@ -130,7 +147,7 @@ export default function AIRoutineBuilder({ analysisData }) {
               className={`${styles.step} ${step.highlight ? styles.highlight : ""}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.08 }}
             >
               <div className={styles.stepNumber}>
                 <span>{step.step}</span>
@@ -153,8 +170,8 @@ export default function AIRoutineBuilder({ analysisData }) {
                 </div>
 
                 <div className={styles.product}>
-                  <h4>{step.product.name}</h4>
-                  <p className={styles.productType}>{step.product.type}</p>
+                  <h4>{step.product?.name}</h4>
+                  <p className={styles.productType}>{step.product?.type}</p>
                 </div>
 
                 <p className={styles.reason}>
@@ -163,7 +180,7 @@ export default function AIRoutineBuilder({ analysisData }) {
                 </p>
 
                 <div className={styles.benefits}>
-                  {step.product.benefits.map((benefit, idx) => (
+                  {(step.product?.benefits || []).map((benefit, idx) => (
                     <span key={idx} className={styles.benefit}>
                       <FontAwesomeIcon icon={faCheck} />
                       {benefit}
@@ -176,19 +193,18 @@ export default function AIRoutineBuilder({ analysisData }) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Tips Section */}
       <div className={styles.tips}>
         <h3>
           <FontAwesomeIcon icon={faLightbulb} />
           Personalized Tips
         </h3>
         <ul>
-          {routine.tips.map((tip, index) => (
+          {(routine.tips || []).map((tip, index) => (
             <motion.li
               key={index}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 + index * 0.1 }}
+              transition={{ delay: 0.15 + index * 0.08 }}
             >
               {tip}
             </motion.li>

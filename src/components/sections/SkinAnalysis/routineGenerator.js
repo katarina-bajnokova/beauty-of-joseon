@@ -1,10 +1,9 @@
 /**
  * AI-Powered Skincare Routine Generator
- * Analyzes skin data and creates personalized K-beauty routines
+ * Accepts normalized payload: { analysis: <object>, averageScore?, recommended? }
  */
 
 const BEAUTY_OF_JOSEON_PRODUCTS = {
-  // Cleansers
   cleansingBalm: {
     name: "Radiance Cleansing Balm",
     type: "Oil Cleanser",
@@ -17,8 +16,6 @@ const BEAUTY_OF_JOSEON_PRODUCTS = {
     benefits: ["Gentle", "pH balanced", "Refreshing"],
     skinTypes: ["all", "oily", "combination"],
   },
-
-  // Toners
   greenPlumToner: {
     name: "Green Plum Refreshing Toner",
     type: "Toner",
@@ -31,8 +28,6 @@ const BEAUTY_OF_JOSEON_PRODUCTS = {
     benefits: ["Brightening", "Moisturizing", "Anti-aging"],
     skinTypes: ["all", "dry", "dull"],
   },
-
-  // Serums
   glowSerum: {
     name: "Glow Serum: Propolis + Niacinamide",
     type: "Serum",
@@ -45,8 +40,6 @@ const BEAUTY_OF_JOSEON_PRODUCTS = {
     benefits: ["Anti-aging", "Elasticity", "Nourishing"],
     skinTypes: ["all", "dry", "mature"],
   },
-
-  // Moisturizers
   dynastyCream: {
     name: "Dynasty Cream",
     type: "Moisturizer",
@@ -59,16 +52,12 @@ const BEAUTY_OF_JOSEON_PRODUCTS = {
     benefits: ["Lightweight", "Brightening", "Hydrating"],
     skinTypes: ["all", "oily", "combination"],
   },
-
-  // Sunscreen
   sunscreen: {
     name: "Relief Sun: Rice + Probiotics",
     type: "Sunscreen",
     benefits: ["SPF 50+", "No white cast", "Moisturizing"],
     skinTypes: ["all"],
   },
-
-  // Treatments
   glowMask: {
     name: "Revive Eye Serum: Ginseng + Retinal",
     type: "Eye Care",
@@ -77,47 +66,67 @@ const BEAUTY_OF_JOSEON_PRODUCTS = {
   },
 };
 
-/**
- * Analyze skin data and determine skin type
- */
-function analyzeSkinType(analysisData) {
-  if (!analysisData || !analysisData.analysis) {
-    return { type: "normal", concerns: [] };
-  }
+const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
-  const { analysis } = analysisData;
+/**
+ * Normalize analysis input so this generator works with:
+ * - aiSkinAnalysis.js output (your current structure)
+ * - older “string-keyed” structures (fallback)
+ */
+function getAnalysisObject(analysisData) {
+  if (!analysisData) return null;
+  return analysisData.analysis ? analysisData.analysis : analysisData;
+}
+
+function analyzeSkinType(analysisData) {
+  const analysis = getAnalysisObject(analysisData);
+  if (!analysis) return { type: "normal", concerns: [] };
+
   const concerns = [];
+
+  // Preferred: your aiSkinAnalysis.js shape
+  const tzoneOil = analysis?.regionalAnalysis?.tzone?.oiliness;
+  const cheekDry = analysis?.regionalAnalysis?.cheeks?.dryness;
+  const comboType = analysis?.regionalAnalysis?.combinationType;
+
+  // Optional: some results might also exist in analysis.metrics
+  const smoothness = analysis?.texture?.smoothness;
+  const hydration = analysis?.hydration?.hydration;
+
   let skinType = "normal";
 
-  // Check T-zone oiliness
-  if (analysis["Regional Analysis"]?.details?.tZone) {
-    const tZone = analysis["Regional Analysis"].details.tZone;
-    if (tZone.toLowerCase().includes("oily")) {
+  if (typeof comboType === "string") {
+    if (comboType.toLowerCase().includes("combination"))
       skinType = "combination";
+    else if (comboType.toLowerCase().includes("oily")) skinType = "oily";
+    else if (comboType.toLowerCase().includes("dry")) skinType = "dry";
+    else skinType = "normal";
+  } else {
+    // numeric inference fallback
+    if (Number.isFinite(tzoneOil) && tzoneOil > 60) {
+      skinType = "oily";
       concerns.push("oily-t-zone");
     }
-  }
-
-  // Check cheek dryness
-  if (analysis["Regional Analysis"]?.details?.cheeks) {
-    const cheeks = analysis["Regional Analysis"].details.cheeks;
-    if (cheeks.toLowerCase().includes("dry")) {
+    if (Number.isFinite(cheekDry) && cheekDry > 55) {
       concerns.push("dry-cheeks");
-      if (skinType === "normal") skinType = "dry";
+      skinType = skinType === "oily" ? "combination" : "dry";
+    }
+    if (skinType === "oily" && Number.isFinite(cheekDry) && cheekDry > 45) {
+      skinType = "combination";
     }
   }
 
-  // Check smoothness
-  if (analysis["Skin Smoothness"]?.score < 60) {
+  // texture / smoothness concern
+  if (Number.isFinite(smoothness) && smoothness < 60)
     concerns.push("rough-texture");
-  }
+
+  // dehydration concern
+  if (Number.isFinite(hydration) && hydration < 55)
+    concerns.push("dehydration");
 
   return { type: skinType, concerns };
 }
 
-/**
- * Generate personalized routine steps
- */
 export function generatePersonalizedRoutine(analysisData) {
   const { type: skinType, concerns } = analyzeSkinType(analysisData);
 
@@ -147,7 +156,7 @@ export function generatePersonalizedRoutine(analysisData) {
       reason:
         skinType === "dry"
           ? "Deeply hydrates and brightens dry areas"
-          : "Brightens skin and helps control oil production",
+          : "Brightens skin and helps support a balanced look",
       importance: "recommended",
     },
     {
@@ -160,8 +169,8 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "30 seconds",
       reason:
         skinType === "oily" || skinType === "combination"
-          ? "Controls oil and minimizes pores in your T-zone"
-          : "Nourishes and improves elasticity for dry skin",
+          ? "Supports oil balance and the look of pores in your T-zone"
+          : "Nourishes and supports elasticity for dry-feeling skin",
       importance: "essential",
     },
     {
@@ -174,8 +183,8 @@ export function generatePersonalizedRoutine(analysisData) {
       time: "30 seconds",
       reason:
         skinType === "dry"
-          ? "Rich hydration for dry and mature skin"
-          : "Lightweight moisture that won't clog pores",
+          ? "Richer moisture to support dry-feeling skin"
+          : "Lightweight moisture that layers well",
       importance: "essential",
     },
     {
@@ -183,7 +192,7 @@ export function generatePersonalizedRoutine(analysisData) {
       name: "Sunscreen",
       product: BEAUTY_OF_JOSEON_PRODUCTS.sunscreen,
       time: "30 seconds",
-      reason: "Protects from UV damage - the #1 cause of aging",
+      reason: "Daily UV protection is the foundation of any routine",
       importance: "essential",
       highlight: true,
     },
@@ -195,7 +204,7 @@ export function generatePersonalizedRoutine(analysisData) {
       name: "Oil Cleanser",
       product: BEAUTY_OF_JOSEON_PRODUCTS.cleansingBalm,
       time: "1 minute",
-      reason: "Removes sunscreen, makeup, and oil-based impurities",
+      reason: "Removes sunscreen, makeup, and oil-based buildup",
       importance: "essential",
     },
     {
@@ -203,7 +212,7 @@ export function generatePersonalizedRoutine(analysisData) {
       name: "Water Cleanser",
       product: BEAUTY_OF_JOSEON_PRODUCTS.greenPlumCleanser,
       time: "30 seconds",
-      reason: "Second cleanse removes water-based impurities",
+      reason: "Second cleanse removes remaining impurities",
       importance: "essential",
     },
     {
@@ -211,7 +220,7 @@ export function generatePersonalizedRoutine(analysisData) {
       name: "Toner",
       product: BEAUTY_OF_JOSEON_PRODUCTS.greenPlumToner,
       time: "10 seconds",
-      reason: "Rebalances skin pH after cleansing",
+      reason: "Rebalances skin after cleansing and preps for actives",
       importance: "essential",
     },
     {
@@ -219,7 +228,7 @@ export function generatePersonalizedRoutine(analysisData) {
       name: "Essence",
       product: BEAUTY_OF_JOSEON_PRODUCTS.riceWater,
       time: "20 seconds",
-      reason: "Deep hydration and brightening while you sleep",
+      reason: "Hydration and brightening support overnight",
       importance: "recommended",
     },
     {
@@ -231,8 +240,8 @@ export function generatePersonalizedRoutine(analysisData) {
           : BEAUTY_OF_JOSEON_PRODUCTS.reviveSerum,
       time: "30 seconds",
       reason: concerns.includes("oily-t-zone")
-        ? "Targets oily T-zone and helps regulate sebum overnight"
-        : "Repairs and nourishes while skin regenerates",
+        ? "Targets T-zone balance overnight"
+        : "Supports repair and nourishment while you sleep",
       importance: "essential",
     },
     {
@@ -240,7 +249,7 @@ export function generatePersonalizedRoutine(analysisData) {
       name: "Eye Care",
       product: BEAUTY_OF_JOSEON_PRODUCTS.glowMask,
       time: "20 seconds",
-      reason: "Targets fine lines and brightens under-eye area",
+      reason: "Targets the look of fine lines and under-eye brightness",
       importance: "recommended",
     },
     {
@@ -251,7 +260,7 @@ export function generatePersonalizedRoutine(analysisData) {
           ? BEAUTY_OF_JOSEON_PRODUCTS.dynastyCream
           : BEAUTY_OF_JOSEON_PRODUCTS.riceMoisturizer,
       time: "30 seconds",
-      reason: "Locks in all previous layers and repairs overnight",
+      reason: "Locks in layers and supports barrier overnight",
       importance: "essential",
     },
   ];
@@ -269,13 +278,10 @@ export function generatePersonalizedRoutine(analysisData) {
   };
 }
 
-/**
- * Calculate total routine time
- */
 function calculateTotalTime(routine) {
   const totalSeconds = routine.reduce((sum, step) => {
-    const time = step.time.match(/(\d+)/);
-    return sum + (time ? parseInt(time[0]) : 0);
+    const time = String(step.time).match(/(\d+)/);
+    return sum + (time ? parseInt(time[0], 10) : 0);
   }, 0);
 
   const minutes = Math.floor(totalSeconds / 60);
@@ -284,32 +290,31 @@ function calculateTotalTime(routine) {
   return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
 }
 
-/**
- * Generate personalized tips
- */
 function generateTips(skinType, concerns) {
   const tips = [
-    "Consistency is key - stick to your routine for at least 4 weeks to see results",
+    "Consistency is key — follow your routine for at least 4 weeks to evaluate results.",
   ];
 
   if (concerns.includes("oily-t-zone")) {
     tips.push(
-      "Blot your T-zone during the day instead of washing - over-washing can increase oil production"
+      "If your T-zone gets shiny, blot or lightly powder instead of over-washing."
     );
   }
 
-  if (concerns.includes("dry-cheeks")) {
-    tips.push("Apply an extra layer of moisturizer to dry areas before bed");
+  if (concerns.includes("dry-cheeks") || concerns.includes("dehydration")) {
+    tips.push(
+      "Consider applying an extra thin layer of moisturizer to drier areas at night."
+    );
   }
 
   if (skinType === "combination") {
     tips.push(
-      "You can use different products on different areas - richer cream on cheeks, lighter gel on T-zone"
+      "You can tailor by zone: richer layers on cheeks, lighter layers on the T-zone."
     );
   }
 
-  tips.push("Always apply products from thinnest to thickest consistency");
-  tips.push("Pat products in gently - never rub or pull at your skin");
+  tips.push("Layer from thinnest to thickest textures.");
+  tips.push("Pat products in gently — avoid rubbing or pulling.");
 
   return tips;
 }
